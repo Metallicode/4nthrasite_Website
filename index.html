@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4NTHRACITE — A desktop instrument for explorers</title>
+  <meta name="description" content="4nthracite is a collection of interconnected musical instruments and sequencers for experimental electronic music. Physics engines, cellular automata, microtonal grids, granular clouds. For explorers.">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:     #0a0a0a;
+      --bg2:    #0d0d0d;
+      --bg3:    #111111;
+      --green:  #3ddc84;
+      --text:   #c0c0c0;
+      --dim:    #555555;
+      --dim2:   #333333;
+      --border: #1a1a1a;
+      --font:   'Courier New', Courier, monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-logo-img {
+      height: 30px;
+      width: auto;
+      filter: invert(1);
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--green);
+      letter-spacing: 0.2em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--text);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .nav-links a:hover { color: var(--green); text-decoration: none; }
+    .btn-buy {
+      background: var(--green);
+      color: #000 !important;
+      padding: 0.35rem 1rem;
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .btn-buy:hover { background: #55e898; text-decoration: none !important; }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span { display: block; width: 22px; height: 1px; background: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 8rem 2rem 7rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #ca-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    /* Dark radial vignette over canvas — keeps animation visible at edges,
+       clears space for the title in the centre */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse 60% 70% at 50% 50%,
+        rgba(10,10,10,0.95) 0%,
+        rgba(10,10,10,0.72) 45%,
+        rgba(10,10,10,0.0)  100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+    .hero-logo {
+      height: clamp(70px, 12vw, 110px);
+      width: auto;
+      filter: invert(1) brightness(1.1);
+      margin-bottom: 1.5rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-eyebrow {
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+    .hero-title {
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      font-weight: bold;
+      color: var(--green);
+      letter-spacing: 0.15em;
+      line-height: 1;
+      margin-bottom: 1.25rem;
+    }
+    .hero-tagline {
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      color: var(--text);
+      letter-spacing: 0.06em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-desc {
+      max-width: 520px;
+      margin: 0 auto 3rem;
+      font-size: 0.88rem;
+      color: var(--dim);
+      line-height: 1.9;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .btn-primary {
+      background: var(--green);
+      color: #000;
+      padding: 0.75rem 2rem;
+      font-family: var(--font);
+      font-size: 0.85rem;
+      font-weight: bold;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #55e898; text-decoration: none; color: #000; }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      padding: 0.75rem 2rem;
+      font-family: var(--font);
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: inline-block;
+      border: 1px solid var(--dim2);
+    }
+    .btn-secondary:hover { border-color: var(--text); color: var(--text); text-decoration: none; }
+    .hero-platforms {
+      font-size: 0.72rem;
+      color: var(--dim);
+      letter-spacing: 0.12em;
+    }
+    .hero-platforms span { color: var(--dim2); margin: 0 0.5rem; }
+
+    /* ── PHILOSOPHY SECTION ── */
+    .philosophy {
+      padding: 6rem 2rem;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .philosophy-inner {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .philosophy-label {
+      font-size: 0.62rem;
+      color: var(--dim);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      margin-bottom: 3.5rem;
+    }
+    .philosophy-label::before { content: '//  '; color: var(--green); }
+    .philosophy-block {
+      margin-bottom: 2.5rem;
+    }
+    .philosophy-block p {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      color: var(--dim);
+      line-height: 2.2;
+      letter-spacing: 0.02em;
+    }
+    .philosophy-block p.accent {
+      color: var(--text);
+    }
+    .philosophy-block p.strong {
+      color: var(--green);
+      font-size: clamp(1rem, 2.8vw, 1.25rem);
+    }
+    .philosophy-divider {
+      width: 1px;
+      height: 3rem;
+      background: var(--border);
+      margin: 2rem auto;
+    }
+    .philosophy-tools-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .philosophy-aside { font-size: 0.85em; color: var(--green); }
+    .philosophy-tools-list span {
+      font-size: 0.72rem;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+    }
+    .philosophy-tools-list span.sep { color: var(--dim2); }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 5rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.62rem;
+      color: var(--dim);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+    }
+    .section-label::before { content: '//  '; color: var(--green); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0;
+    }
+    .feature-item {
+      padding: 1.5rem 1.5rem 1.5rem 0;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .feature-item:nth-child(3n) { border-right: none; }
+    .feature-num { font-size: 0.62rem; color: var(--green); letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+    .feature-title { font-size: 0.92rem; color: var(--text); font-weight: bold; margin-bottom: 0.4rem; }
+    .feature-desc { font-size: 0.78rem; color: var(--dim); line-height: 1.75; }
+
+    /* ── TOOLS SECTION ── */
+    .tools { padding: 5rem 2rem; border-bottom: 1px solid var(--border); }
+    .tools-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .tools-sub {
+      font-size: 0.72rem;
+      color: var(--dim);
+    }
+    .tool-category { margin-bottom: 3.5rem; }
+    .tool-category-header {
+      font-size: 0.62rem;
+      color: var(--dim);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .tool-category-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+    .tool-card {
+      background: var(--bg2);
+      padding: 1.1rem 1.1rem 1.1rem 1.2rem;
+      border-left: 2px solid var(--accent, var(--green));
+      transition: background 0.15s;
+    }
+    .tool-card:hover { background: var(--bg3); }
+    .tool-card-top {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+    .tool-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent, var(--green));
+      flex-shrink: 0;
+    }
+    .tool-label {
+      font-size: 0.68rem;
+      font-weight: bold;
+      letter-spacing: 0.18em;
+      color: var(--accent, var(--green));
+      text-transform: uppercase;
+    }
+    .tool-name { font-size: 0.82rem; color: var(--text); margin-bottom: 0.5rem; }
+    .tool-desc { font-size: 0.72rem; color: var(--dim); line-height: 1.6; }
+
+    /* ── CTA ── */
+    .cta {
+      padding: 6rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .cta-title {
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      color: var(--text);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+    .cta-title strong { color: var(--green); }
+    .cta-sub { font-size: 0.85rem; color: var(--dim); margin-bottom: 2.5rem; }
+
+    /* ── FOOTER ── */
+    footer { padding: 3rem 2rem; }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .footer-logo { font-size: 1rem; font-weight: bold; color: var(--green); letter-spacing: 0.2em; display: block; margin-bottom: 0.4rem; }
+    .footer-tagline { font-size: 0.75rem; color: var(--dim); }
+    .footer-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
+    .footer-nav a { color: var(--dim); font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .footer-nav a:hover { color: var(--green); text-decoration: none; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 0.72rem; color: var(--dim); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { color: var(--dim); font-size: 0.72rem; }
+    .footer-legal a:hover { color: var(--green); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; }
+      .nav-links.open {
+        display: flex;
+        position: fixed;
+        top: 56px; left: 0; right: 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem 2rem;
+        gap: 1.25rem;
+      }
+      .nav-toggle { display: flex; }
+      .hero { padding: 5rem 1.5rem 4rem; min-height: 420px; }
+      .philosophy { padding: 4rem 1.5rem; }
+      .features { padding: 3rem 1.5rem; }
+      .feature-item { border-right: none; }
+      .tools { padding: 3rem 1.5rem; }
+      .tool-grid { grid-template-columns: 1fr; }
+      .cta { padding: 4rem 1.5rem; }
+      footer { padding: 2rem 1.5rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="4nthracite_Logo.png" class="nav-logo-img" alt="4">
+      <span class="nav-logo-text">NTHRACITE</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="download.html">Download</a>
+      <a href="https://YOUR-LEMONSQUEEZY-CHECKOUT-URL" class="btn-buy">Buy Now</a>
+    </div>
+    <div class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <canvas id="ca-canvas"></canvas>
+    <div class="hero-content">
+      <img src="4nthracite_Logo.png" class="hero-logo" alt="4NTHRACITE">
+      <p class="hero-eyebrow">Experimental electronic</p>
+      <h1 class="hero-title">4NTHRACITE</h1>
+      <p class="hero-tagline">Exploring the edge of chaos.</p>
+      <div class="hero-actions">
+        <a href="https://YOUR-LEMONSQUEEZY-CHECKOUT-URL" class="btn-primary">Get the app</a>
+        <a href="tools.html" class="btn-secondary">Explore the tools</a>
+      </div>
+      <p class="hero-platforms">
+        Linux<span>·</span>macOS<span>·</span>Windows
+      </p>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section class="philosophy">
+    <div class="philosophy-inner">
+      <div class="philosophy-block">
+        <p>You will get lost.</p>
+        <p>Things will go wrong.</p>
+        <p class="accent">There will be chaos.<br><span class="philosophy-aside">(that's where the interesting music lives.)</span></p>
+      </div>
+
+      <div class="philosophy-divider"></div>
+
+      <div class="philosophy-tools-list">
+        <span>Physics engines</span><span class="sep">·</span>
+        <span>Cellular automata</span><span class="sep">·</span>
+        <span>Microtonal grids</span><span class="sep">·</span>
+        <span>Granular clouds</span><span class="sep">·</span>
+        <span>Neural synthesis</span><span class="sep">·</span>
+        <span>Game-based sequencers</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="section-inner">
+      <p class="section-label">What you get</p>
+      <div class="features-grid">
+        <div class="feature-item">
+          <p class="feature-num">01</p>
+          <p class="feature-title">A collection of instruments</p>
+          <p class="feature-desc">From a physics ball sequencer to a neural topology synth. Every tool is a fully self-contained creative instrument with its own logic and interface.</p>
+        </div>
+        <div class="feature-item">
+          <p class="feature-num">02</p>
+          <p class="feature-title">All tools sync together</p>
+          <p class="feature-desc">Global BPM, key, and scale. A single SYNC pulse broadcasts to every open tool simultaneously. Things that shouldn't work together, do.</p>
+        </div>
+        <div class="feature-item">
+          <p class="feature-num">03</p>
+          <p class="feature-title">Mix, record, save</p>
+          <p class="feature-desc">Per-tool mixer with volume, pan, FX send, mute, and solo. Record everything to stereo WAV. Save and reload full sessions as .anthc files.</p>
+        </div>
+        <div class="feature-item">
+          <p class="feature-num">04</p>
+          <p class="feature-title">Bring your own samples</p>
+          <p class="feature-desc">A built-in sample library panel — drag audio files or folders directly into any tool that accepts them. Your sounds, their engine.</p>
+        </div>
+        <div class="feature-item">
+          <p class="feature-num">05</p>
+          <p class="feature-title">Buy once, own forever</p>
+          <p class="feature-desc">No subscription. No accounts. No telemetry. Your files stay on your machine. One purchase covers all platforms.</p>
+        </div>
+        <div class="feature-item">
+          <p class="feature-num">06</p>
+          <p class="feature-title">Designed to surprise you</p>
+          <p class="feature-desc">Every tool has a moment where it does something you didn't expect. That's intentional. The wrong notes are part of it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="tools" id="tools">
+    <div class="section-inner">
+      <div class="tools-header">
+        <p class="section-label" style="margin-bottom:0">The instruments</p>
+        <p class="tools-sub"><a href="tools.html">Full documentation &rarr;</a></p>
+      </div>
+
+      <!-- RHYTHM MACHINES -->
+      <div class="tool-category">
+        <p class="tool-category-header">Rhythm Machines</p>
+        <div class="tool-grid">
+
+          <div class="tool-card" style="--accent:#ff3300">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">KIK</span></div>
+            <p class="tool-name">Industrial Kick Engine</p>
+            <p class="tool-desc">Precision kick drum synthesizer with layered transient, noise, and saturation stages — driven by a 16-step pattern sequencer.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#00ccbb">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">EUCLIDEAN</span></div>
+            <p class="tool-name">Euclidean Rhythm Generator</p>
+            <p class="tool-desc">6-track polymetric drum machine that distributes hits evenly using the Euclidean algorithm, creating evolving polyrhythmic grooves.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#00ccbb">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">NL SEQ</span></div>
+            <p class="tool-name">Non-Linear Drum Sequencer</p>
+            <p class="tool-desc">6-channel drum sequencer where a hand-drawn tempo curve controls how fast or slow each individual step plays.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#ffd93d">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">CELLS</span></div>
+            <p class="tool-name">Cellular Automata Sequencer</p>
+            <p class="tool-desc">8-track drum sequencer driven by Langton's lambda cellular automaton — patterns evolve continuously based on a CHAOS knob.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#6bcb77">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">BEATS</span></div>
+            <p class="tool-name">Polymetric Beats</p>
+            <p class="tool-desc">6-channel step sequencer where each channel runs at its own independent step count, producing natural polyrhythmic phase drift.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#39FF14">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">SNAKE</span></div>
+            <p class="tool-name">Snake Sequencer</p>
+            <p class="tool-desc">Steer a snake across a sound grid with arrow keys. The trail it records plays back as a looping sequence with lo-fi bit-crush.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#cc88ff">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">BALLS</span></div>
+            <p class="tool-name">Ball Physics Sequencer</p>
+            <p class="tool-desc">Bouncing balls trigger musical events on collision. Adjust gravity and damping to shape the rhythm's energy and density.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#8BC34A">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">MACHINE</span></div>
+            <p class="tool-name">Kinetic Audio Physics Engine</p>
+            <p class="tool-desc">2D physics sandbox where ball emitters bounce off walls and user-placed objects, generating non-repeating collision-based rhythms.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SYNTHS -->
+      <div class="tool-category">
+        <p class="tool-category-header">Synths</p>
+        <div class="tool-grid">
+
+          <div class="tool-card" style="--accent:#ff5500">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">T-303</span></div>
+            <p class="tool-name">Turing 303</p>
+            <p class="tool-desc">TB-303 style acid synthesizer driven by a 16-bit Turing machine shift register — from locked patterns to maximum chaos.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#00E5FF">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">PENDULUM</span></div>
+            <p class="tool-name">Pendulum Drone</p>
+            <p class="tool-desc">Drone synthesizer whose timbre is modulated by a simulated multi-arm pendulum. Drag the bob; add motors for infinite oscillation.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#4d96ff">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">EDO ARP</span></div>
+            <p class="tool-name">Equal Division Arp Synth</p>
+            <p class="tool-desc">Synthesizer tunable to any equal division of the octave — 5-EDO to 31-EDO and beyond — with a dynamically redrawn keyboard.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#9c5fff">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">TENSION</span></div>
+            <p class="tool-name">Fusion Architect</p>
+            <p class="tool-desc">4-operator FM synthesizer driven by a stochastic chord navigation puck moving through a 2D harmonic tension space.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#00b4d8">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">TOPO</span></div>
+            <p class="tool-name">Topology Sequencer</p>
+            <p class="tool-desc">Spatial sequencer on a 35×37 deformable mesh. Smudge the grid in real time to reshape the melodic contour of each column.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#ff6b6b">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">PAINT</span></div>
+            <p class="tool-name">Paint Synth</p>
+            <p class="tool-desc">Canvas synthesizer where painting directly produces sound. Vertical axis = frequency; a scanning playhead reads your brushstrokes.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#FF2A6D">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">SPACE</span></div>
+            <p class="tool-name">Neural Topology Synth</p>
+            <p class="tool-desc">Loads audio and extracts 8 spectral engrams distributed across a neural network. Mouse blends engrams across 40 oscillator voices.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- HARMONY & MELODY -->
+      <div class="tool-category">
+        <p class="tool-category-header">Harmony &amp; Melody</p>
+        <div class="tool-grid">
+
+          <div class="tool-card" style="--accent:#9C27B0">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">GEO HAR</span></div>
+            <p class="tool-name">Geometric Harmony Sequencer</p>
+            <p class="tool-desc">Timeline canvas where placed chord blocks trigger polyphonic harmonies under a sweeping playhead. Just-intonation snap available.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#bb66ff">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">TONNETZ</span></div>
+            <p class="tool-name">Tonnetz Grid</p>
+            <p class="tool-desc">Interactive Neo-Riemannian hexagonal lattice where adjacent nodes form triads. Click to record a path for melodic voice-leading playback.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#ff9f43">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">MANDALA</span></div>
+            <p class="tool-name">Harmonic Mandala</p>
+            <p class="tool-desc">Generative chord explorer displayed as nested harmonic rings. Hover to hear; click to record a looping sequence with Coltrane-style changes.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#00E5FF">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">JAZZ</span></div>
+            <p class="tool-name">Stochastic Fusion Groove Architect</p>
+            <p class="tool-desc">Stochastic groove generator simulating guitar, violin, and saxophone improvising over randomised chord progressions.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#FFD700">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">MAQAM</span></div>
+            <p class="tool-name">Maqam Step Sequencer</p>
+            <p class="tool-desc">Step sequencer tuned to Arabic maqam scales with authentic quarter-tone microtonal intonation — rendered without rounding to 12-TET.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#aa44ff">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">CHAOS</span></div>
+            <p class="tool-name">Edge of Chaos</p>
+            <p class="tool-desc">Generative sequencer driven by a 5-neighbourhood cellular automaton. A roaming probe cursor collects live cells and triggers their pitches.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- GRANULAR -->
+      <div class="tool-category">
+        <p class="tool-category-header">Granular</p>
+        <div class="tool-grid">
+
+          <div class="tool-card" style="--accent:#ffaa33">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">GRANULAR</span></div>
+            <p class="tool-name">Granular Synth</p>
+            <p class="tool-desc">Classic granular synthesis engine. Load any audio file; control grain size, density, drift, and direction for infinite textural variation.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#00FF88">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">GRN MTX</span></div>
+            <p class="tool-name">Matrix Granular</p>
+            <p class="tool-desc">Granular synthesizer built around a painted grid matrix. Paint cells to arm grain-trigger positions; a playhead fires them from your sample.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#ff3355">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">LOOPER</span></div>
+            <p class="tool-name">Live Loop Recorder</p>
+            <p class="tool-desc">5-channel live looper with per-channel trim markers, SYNC mode, and a 16-step sequencer for triggering loops in time.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- FX & AMBIENCE -->
+      <div class="tool-category">
+        <p class="tool-category-header">FX &amp; Ambience</p>
+        <div class="tool-grid">
+
+          <div class="tool-card" style="--accent:#cc44ff">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">SHOEGAZE</span></div>
+            <p class="tool-name">Shoegaze Processor</p>
+            <p class="tool-desc">Live audio processor with granular pitch shift, feedback delay network reverb, and shimmer. HOLD freezes the wet tail indefinitely.</p>
+          </div>
+
+          <div class="tool-card" style="--accent:#48dbfb">
+            <div class="tool-card-top"><div class="tool-dot"></div><span class="tool-label">SPECTRAL</span></div>
+            <p class="tool-name">Spectral Editor</p>
+            <p class="tool-desc">Partial-based additive synthesizer with a visual FFT editor. Drag, add, or delete sinusoidal partials; hear resynthesis in real time.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2 class="cta-title">Stop planning.<br><strong>Start exploring.</strong></h2>
+    <p class="cta-sub">No subscription. No telemetry. All platforms included in one purchase.</p>
+    <div class="hero-actions">
+      <a href="https://YOUR-LEMONSQUEEZY-CHECKOUT-URL" class="btn-primary">Get the app</a>
+      <a href="download.html" class="btn-secondary">Download Demo</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-logo">4NTHRACITE</span>
+        <p class="footer-tagline">A desktop instrument for explorers.</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="download.html">Download</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refund Policy</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2025 4nthracite. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refunds</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Nav toggle ──
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.getElementById('nav-links');
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+
+    // ── 1D → 2D Wolfram-style CA Hero Background ──
+    // Matches the CHAOS tool: 5-neighbourhood rule (2 left, self, 2 right),
+    // evolved row-by-row from a two-cell seed at the top centre.
+    // Rule is a random 32-bit number — a new pattern on every page load.
+    // Static render (no animation loop) — grey-only, no colour.
+    (function () {
+      const canvas = document.getElementById('ca-canvas');
+      const ctx    = canvas.getContext('2d');
+      const CELL   = 3; // px per cell
+
+      // Choose a 32-bit rule biased toward the "edge of chaos":
+      // rules where 8–24 of the 32 output bits are 1 tend to produce
+      // complex, structured patterns rather than all-dead or all-live.
+      function makeRule() {
+        for (let t = 0; t < 20; t++) {
+          const b = [0,1,2,3].map(() => Math.floor(Math.random() * 256));
+          const num = ((b[0] << 24) | (b[1] << 16) | (b[2] << 8) | b[3]) >>> 0;
+          const ra  = BigInt(num).toString(2).padStart(32, '0')
+                        .split('').map(Number).reverse();
+          const ones = ra.reduce((s, v) => s + v, 0);
+          if (ones >= 8 && ones <= 24) return ra;
+        }
+        // Fallback: a rule known to produce complex patterns
+        return BigInt('0x1B4F1B4F').toString(2).padStart(32, '0')
+                 .split('').map(Number).reverse();
+      }
+
+      const rule = makeRule();
+
+      function generate(cols, rows) {
+        const grid = Array.from({length: rows}, () => new Uint8Array(cols));
+        const mid  = Math.floor(cols / 2);
+        grid[0][mid] = grid[0][mid + 1] = 1;
+        for (let y = 1; y < rows; y++) {
+          const p = grid[y - 1];
+          for (let x = 0; x < cols; x++) {
+            const ll = x > 1      ? p[x-2] : 0;
+            const l  = x > 0      ? p[x-1] : 0;
+            const c  = p[x];
+            const r  = x < cols-1 ? p[x+1] : 0;
+            const rr = x < cols-2 ? p[x+2] : 0;
+            grid[y][x] = rule[(ll<<4)|(l<<3)|(c<<2)|(r<<1)|rr];
+          }
+        }
+        return grid;
+      }
+
+      function render() {
+        const w = canvas.width  = canvas.offsetWidth;
+        const h = canvas.height = canvas.offsetHeight;
+        const cols = Math.ceil(w / CELL);
+        const rows = Math.ceil(h / CELL);
+        const grid = generate(cols, rows);
+
+        // Clear to page background
+        ctx.fillStyle = '#0a0a0a';
+        ctx.fillRect(0, 0, w, h);
+
+        // Draw live cells in a single muted grey
+        ctx.fillStyle = 'rgba(200, 200, 200, 0.18)';
+        for (let y = 0; y < rows; y++) {
+          for (let x = 0; x < cols; x++) {
+            if (grid[y][x]) {
+              ctx.fillRect(x * CELL, y * CELL, CELL - 1, CELL - 1);
+            }
+          }
+        }
+      }
+
+      render();
+      window.addEventListener('resize', render);
+    })();
+  </script>
+
+</body>
+</html>

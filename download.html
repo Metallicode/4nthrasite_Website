@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download — 4NTHRACITE</title>
+  <meta name="description" content="Download 4nthracite for Linux, macOS, or Windows. Available as AppImage, .deb, .dmg, and .exe/.msi installers.">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:     #0a0a0a;
+      --bg2:    #0d0d0d;
+      --bg3:    #111111;
+      --green:  #3ddc84;
+      --text:   #c0c0c0;
+      --dim:    #555555;
+      --dim2:   #333333;
+      --border: #1a1a1a;
+      --font:   'Courier New', Courier, monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-logo-img {
+      height: 30px;
+      width: auto;
+      filter: invert(1);
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--green);
+      letter-spacing: 0.2em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--text);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .nav-links a:hover { color: var(--green); text-decoration: none; }
+    .nav-links a.active { color: var(--green); }
+    .btn-buy {
+      background: var(--green);
+      color: #000 !important;
+      padding: 0.35rem 1rem;
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .btn-buy:hover { background: #55e898; text-decoration: none !important; }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span { display: block; width: 22px; height: 1px; background: var(--text); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 4rem 2rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header-inner { max-width: 900px; margin: 0 auto; }
+    .page-eyebrow {
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .page-eyebrow::before { content: '// '; color: var(--green); }
+    .page-title {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--text);
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .page-title span { color: var(--green); }
+    .page-desc {
+      font-size: 0.85rem;
+      color: var(--dim);
+      max-width: 560px;
+      line-height: 1.8;
+    }
+
+    /* ── CONTENT ── */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    /* ── PLATFORM CARDS ── */
+    .platforms {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      margin-bottom: 4rem;
+    }
+    .platform-card {
+      background: var(--bg2);
+      padding: 2rem;
+      border-top: 2px solid var(--dim2);
+      transition: border-color 0.15s;
+    }
+    .platform-card:hover { border-top-color: var(--green); }
+    .platform-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+    .platform-name {
+      font-size: 1.1rem;
+      color: var(--text);
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.25rem;
+    }
+    .platform-formats {
+      font-size: 0.72rem;
+      color: var(--dim);
+      letter-spacing: 0.08em;
+      margin-bottom: 1.5rem;
+    }
+    .download-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      background: transparent;
+      border: 1px solid var(--dim2);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-download:hover {
+      border-color: var(--green);
+      color: var(--green);
+      text-decoration: none;
+    }
+    .btn-download-ext {
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+    }
+    .btn-download:hover .btn-download-ext { color: var(--green); }
+
+    /* ── NOTICE ── */
+    .notice {
+      border: 1px solid var(--dim2);
+      border-left: 2px solid var(--green);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .notice-label {
+      font-size: 0.65rem;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .notice p {
+      font-size: 0.82rem;
+      color: var(--dim);
+      line-height: 1.7;
+    }
+    .notice p + p { margin-top: 0.5rem; }
+
+    /* ── TECH SPECS ── */
+    .specs-label {
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .specs-label::before { content: '// '; color: var(--green); }
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+    .specs-table tr {
+      border-bottom: 1px solid var(--border);
+    }
+    .specs-table td {
+      padding: 0.6rem 0;
+      vertical-align: top;
+    }
+    .specs-table td:first-child {
+      color: var(--dim);
+      width: 160px;
+      padding-right: 1rem;
+      letter-spacing: 0.05em;
+    }
+    .specs-table td:last-child { color: var(--text); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      margin-top: 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .footer-logo { font-size: 1rem; font-weight: bold; color: var(--green); letter-spacing: 0.2em; display: block; margin-bottom: 0.4rem; }
+    .footer-tagline { font-size: 0.75rem; color: var(--dim); }
+    .footer-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
+    .footer-nav a { color: var(--dim); font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .footer-nav a:hover { color: var(--green); text-decoration: none; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 0.72rem; color: var(--dim); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { color: var(--dim); font-size: 0.72rem; }
+    .footer-legal a:hover { color: var(--green); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; }
+      .nav-links.open {
+        display: flex;
+        position: fixed;
+        top: 56px; left: 0; right: 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem 2rem;
+        gap: 1.25rem;
+      }
+      .nav-toggle { display: flex; }
+      .page-header { padding: 3rem 1.5rem 2rem; }
+      .content { padding: 3rem 1.5rem; }
+      .platforms { grid-template-columns: 1fr; }
+      footer { padding: 2rem 1.5rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="4nthracite_Logo.png" class="nav-logo-img" alt="4">
+      <span class="nav-logo-text">NTHRACITE</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="download.html" class="active">Download</a>
+      <a href="https://YOUR-LEMONSQUEEZY-CHECKOUT-URL" class="btn-buy">Buy Now</a>
+    </div>
+    <div class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-eyebrow">Get the app</p>
+      <h1 class="page-title"><span>Download</span> 4nthracite</h1>
+      <p class="page-desc">
+        Available for Linux, macOS, and Windows. One purchase covers all platforms.
+        Download links are provided after checkout.
+      </p>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- NOTICE -->
+    <div class="notice">
+      <p class="notice-label">Purchase required</p>
+      <p>4nthracite is a paid desktop application. After purchasing via the button below, you will receive download links for your platform(s). A demo version may be available — check back soon.</p>
+      <p>Payments are processed securely by Lemon Squeezy. <a href="refund.html">14-day refund policy</a> applies.</p>
+    </div>
+
+    <!-- PLATFORM CARDS -->
+    <div class="platforms">
+
+      <!-- LINUX -->
+      <div class="platform-card">
+        <div class="platform-icon">🐧</div>
+        <p class="platform-name">Linux</p>
+        <p class="platform-formats">AppImage &nbsp;·&nbsp; .deb (amd64)</p>
+        <div class="download-links">
+          <a href="https://YOUR-DOWNLOAD-LINK-LINUX-APPIMAGE" class="btn-download">
+            <span>Download AppImage</span>
+            <span class="btn-download-ext">.AppImage</span>
+          </a>
+          <a href="https://YOUR-DOWNLOAD-LINK-LINUX-DEB" class="btn-download">
+            <span>Download .deb package</span>
+            <span class="btn-download-ext">.deb</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- MACOS -->
+      <div class="platform-card">
+        <div class="platform-icon">🍎</div>
+        <p class="platform-name">macOS</p>
+        <p class="platform-formats">Disk Image (x64)</p>
+        <div class="download-links">
+          <a href="https://YOUR-DOWNLOAD-LINK-MACOS-DMG" class="btn-download">
+            <span>Download for macOS</span>
+            <span class="btn-download-ext">.dmg</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- WINDOWS -->
+      <div class="platform-card">
+        <div class="platform-icon">🪟</div>
+        <p class="platform-name">Windows</p>
+        <p class="platform-formats">Installer &nbsp;·&nbsp; MSI (x64)</p>
+        <div class="download-links">
+          <a href="https://YOUR-DOWNLOAD-LINK-WINDOWS-EXE" class="btn-download">
+            <span>Download Installer</span>
+            <span class="btn-download-ext">.exe</span>
+          </a>
+          <a href="https://YOUR-DOWNLOAD-LINK-WINDOWS-MSI" class="btn-download">
+            <span>Download MSI</span>
+            <span class="btn-download-ext">.msi</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TECH SPECS -->
+    <p class="specs-label">Technical details</p>
+    <table class="specs-table">
+      <tr>
+        <td>Frontend</td>
+        <td>HTML5, CSS3, vanilla JavaScript, Web Audio API</td>
+      </tr>
+      <tr>
+        <td>Desktop shell</td>
+        <td>Tauri 2.x (Rust) — wraps the browser-based audio engine as a native desktop app</td>
+      </tr>
+      <tr>
+        <td>Audio routing</td>
+        <td>Web Audio API + GStreamer (Linux) for sample and mic routing</td>
+      </tr>
+      <tr>
+        <td>Save format</td>
+        <td>.anthc files (JSON) stored in ~/Documents/Anthracite/</td>
+      </tr>
+      <tr>
+        <td>Linux builds</td>
+        <td>Harmonic-Bloom_[ver]_amd64.AppImage &nbsp;·&nbsp; Harmonic-Bloom_[ver]_amd64.deb</td>
+      </tr>
+      <tr>
+        <td>macOS builds</td>
+        <td>Harmonic-Bloom_[ver]_x64.dmg</td>
+      </tr>
+      <tr>
+        <td>Windows builds</td>
+        <td>Harmonic-Bloom_[ver]_x64-setup.exe &nbsp;·&nbsp; Harmonic-Bloom_[ver]_x64.msi</td>
+      </tr>
+    </table>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-logo">4NTHRACITE</span>
+        <p class="footer-tagline">A desktop instrument for explorers.</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="download.html">Download</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refund Policy</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2025 4nthracite. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refunds</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.getElementById('nav-links');
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+  </script>
+
+</body>
+</html>

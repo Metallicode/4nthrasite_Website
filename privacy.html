@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — 4NTHRACITE</title>
+  <meta name="description" content="4nthracite privacy policy. No telemetry, no accounts, no data collection. Your files stay local.">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:     #0a0a0a;
+      --bg2:    #0d0d0d;
+      --green:  #3ddc84;
+      --text:   #c0c0c0;
+      --dim:    #555555;
+      --dim2:   #333333;
+      --border: #1a1a1a;
+      --font:   'Courier New', Courier, monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; }
+    .nav-logo-img { height: 30px; width: auto; filter: invert(1); flex-shrink: 0; }
+    .nav-logo-text { font-size: 1rem; font-weight: bold; color: var(--green); letter-spacing: 0.2em; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: var(--text); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .nav-links a:hover { color: var(--green); text-decoration: none; }
+    .btn-buy {
+      background: var(--green);
+      color: #000 !important;
+      padding: 0.35rem 1rem;
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .btn-buy:hover { background: #55e898; text-decoration: none !important; }
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-toggle span { display: block; width: 22px; height: 1px; background: var(--text); }
+
+    .page-header {
+      padding: 4rem 2rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header-inner { max-width: 720px; margin: 0 auto; }
+    .page-eyebrow { font-size: 0.65rem; color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
+    .page-eyebrow::before { content: '// '; color: var(--green); }
+    .page-title { font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--text); letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .page-date { font-size: 0.75rem; color: var(--dim); }
+
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .section { margin-bottom: 3rem; }
+    .section-title {
+      font-size: 0.8rem;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section p { font-size: 0.85rem; color: var(--text); line-height: 1.9; margin-bottom: 0.75rem; }
+    .section ul { margin: 0.5rem 0 0.75rem 1.5rem; }
+    .section ul li { font-size: 0.85rem; color: var(--text); line-height: 1.8; margin-bottom: 0.25rem; }
+
+    .highlight-box {
+      border: 1px solid var(--dim2);
+      border-left: 2px solid var(--green);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .highlight-box p { font-size: 0.85rem; color: var(--text); line-height: 1.8; }
+    .highlight-box strong { color: var(--green); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      margin-top: 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .footer-logo { font-size: 1rem; font-weight: bold; color: var(--green); letter-spacing: 0.2em; display: block; margin-bottom: 0.4rem; }
+    .footer-tagline { font-size: 0.75rem; color: var(--dim); }
+    .footer-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
+    .footer-nav a { color: var(--dim); font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .footer-nav a:hover { color: var(--green); text-decoration: none; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 0.72rem; color: var(--dim); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { color: var(--dim); font-size: 0.72rem; }
+    .footer-legal a:hover { color: var(--green); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; }
+      .nav-links.open {
+        display: flex;
+        position: fixed;
+        top: 56px; left: 0; right: 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem 2rem;
+        gap: 1.25rem;
+      }
+      .nav-toggle { display: flex; }
+      .page-header { padding: 3rem 1.5rem 2rem; }
+      .content { padding: 3rem 1.5rem; }
+      footer { padding: 2rem 1.5rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="4nthracite_Logo.png" class="nav-logo-img" alt="4">
+      <span class="nav-logo-text">NTHRACITE</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="download.html">Download</a>
+      <a href="https://YOUR-LEMONSQUEEZY-CHECKOUT-URL" class="btn-buy">Buy Now</a>
+    </div>
+    <div class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-eyebrow">Legal</p>
+      <h1 class="page-title">Privacy Policy</h1>
+      <p class="page-date">Effective date: 2025-01-01 &nbsp;·&nbsp; Last updated: 2025-01-01</p>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="highlight-box">
+      <p><strong>Short version:</strong> 4nthracite does not collect any personal data, usage data, or telemetry. There are no user accounts. Your project files and audio samples stay on your computer. We never see them.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">1. Who we are</h2>
+      <p>4nthracite is a desktop music application sold at 4nthracite.com. References to "we", "us", or "our" in this policy refer to the developer and publisher of 4nthracite.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">2. Data we do not collect</h2>
+      <p>The 4nthracite application itself does not collect, transmit, or store any of the following:</p>
+      <ul>
+        <li>Personal identifiers (name, email address, IP address)</li>
+        <li>Usage data, analytics, or telemetry</li>
+        <li>Crash reports</li>
+        <li>Audio files, samples, or project files</li>
+        <li>Device identifiers or hardware information</li>
+        <li>Location data</li>
+      </ul>
+      <p>The application runs entirely on your local machine. It has no built-in network features and makes no outbound connections.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">3. Local data storage</h2>
+      <p>4nthracite stores data only on your own device:</p>
+      <ul>
+        <li><strong>Project files</strong> (.anthc) — saved to ~/Documents/Anthracite/ when you choose to save a session.</li>
+        <li><strong>Recorded audio</strong> — WAV files written to a location you specify.</li>
+        <li><strong>Application preferences</strong> — stored locally by the Tauri desktop framework in your OS's standard app config directory.</li>
+      </ul>
+      <p>None of this data leaves your device.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">4. Purchase and payment</h2>
+      <p>Purchases are processed by <strong>Lemon Squeezy</strong>, our payment provider and merchant of record. When you buy 4nthracite, Lemon Squeezy collects the information necessary to complete the transaction (name, email, payment details) and handles all payment processing and VAT compliance.</p>
+      <p>We receive a notification of completed purchases so we can provide your download link. We do not receive or store your full payment details. Please review <a href="https://www.lemonsqueezy.com/privacy" target="_blank" rel="noopener">Lemon Squeezy's Privacy Policy</a> for details on how they handle your payment data.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">5. Website analytics</h2>
+      <p>The 4nthracite.com website may use privacy-respecting, cookie-free analytics to understand page traffic in aggregate (e.g., page views, referring domains). No personally identifiable information is collected at the website level. No cross-site tracking cookies are used.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">6. Cookies</h2>
+      <p>The 4nthracite.com website does not use cookies for tracking, advertising, or personalisation. Any cookies present are strictly functional (e.g., session management for the checkout flow handled by Lemon Squeezy).</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">7. Third-party services</h2>
+      <p>This website embeds YouTube videos (on the Tools page) via YouTube's standard embed URL. YouTube may set cookies or collect data when you interact with embedded videos. This is governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>. We use YouTube's no-cookie embed domain where possible.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">8. Your rights</h2>
+      <p>Because we do not collect personal data through the application, there is no personal data held by us to access, correct, or delete. For any data held by Lemon Squeezy in relation to your purchase, please contact Lemon Squeezy directly.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">9. Children</h2>
+      <p>4nthracite is not directed at children under 13 (or the applicable age of digital consent in your country). We do not knowingly collect any data from children.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">10. Changes to this policy</h2>
+      <p>We may update this policy from time to time. The effective date at the top of this page will be updated accordingly. Continued use of 4nthracite after changes are posted constitutes acceptance of the revised policy.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">11. Contact</h2>
+      <p>Questions about this privacy policy? Contact us at the email address provided on the purchase receipt, or via the contact details on 4nthracite.com.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-logo">4NTHRACITE</span>
+        <p class="footer-tagline">A desktop instrument for explorers.</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="download.html">Download</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refund Policy</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2025 4nthracite. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refunds</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.getElementById('nav-links');
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service — 4NTHRACITE</title>
+  <meta name="description" content="4nthracite terms of service. One-time purchase, all platforms, no subscription.">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:     #0a0a0a;
+      --bg2:    #0d0d0d;
+      --green:  #3ddc84;
+      --text:   #c0c0c0;
+      --dim:    #555555;
+      --dim2:   #333333;
+      --border: #1a1a1a;
+      --font:   'Courier New', Courier, monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; }
+    .nav-logo-img { height: 30px; width: auto; filter: invert(1); flex-shrink: 0; }
+    .nav-logo-text { font-size: 1rem; font-weight: bold; color: var(--green); letter-spacing: 0.2em; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: var(--text); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .nav-links a:hover { color: var(--green); text-decoration: none; }
+    .btn-buy {
+      background: var(--green);
+      color: #000 !important;
+      padding: 0.35rem 1rem;
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .btn-buy:hover { background: #55e898; text-decoration: none !important; }
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-toggle span { display: block; width: 22px; height: 1px; background: var(--text); }
+
+    .page-header {
+      padding: 4rem 2rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header-inner { max-width: 720px; margin: 0 auto; }
+    .page-eyebrow { font-size: 0.65rem; color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
+    .page-eyebrow::before { content: '// '; color: var(--green); }
+    .page-title { font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--text); letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .page-date { font-size: 0.75rem; color: var(--dim); }
+
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .section { margin-bottom: 3rem; }
+    .section-title {
+      font-size: 0.8rem;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section p { font-size: 0.85rem; color: var(--text); line-height: 1.9; margin-bottom: 0.75rem; }
+    .section ul { margin: 0.5rem 0 0.75rem 1.5rem; }
+    .section ul li { font-size: 0.85rem; color: var(--text); line-height: 1.8; margin-bottom: 0.25rem; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      margin-top: 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .footer-logo { font-size: 1rem; font-weight: bold; color: var(--green); letter-spacing: 0.2em; display: block; margin-bottom: 0.4rem; }
+    .footer-tagline { font-size: 0.75rem; color: var(--dim); }
+    .footer-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
+    .footer-nav a { color: var(--dim); font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .footer-nav a:hover { color: var(--green); text-decoration: none; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 0.72rem; color: var(--dim); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { color: var(--dim); font-size: 0.72rem; }
+    .footer-legal a:hover { color: var(--green); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; }
+      .nav-links.open {
+        display: flex;
+        position: fixed;
+        top: 56px; left: 0; right: 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem 2rem;
+        gap: 1.25rem;
+      }
+      .nav-toggle { display: flex; }
+      .page-header { padding: 3rem 1.5rem 2rem; }
+      .content { padding: 3rem 1.5rem; }
+      footer { padding: 2rem 1.5rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="4nthracite_Logo.png" class="nav-logo-img" alt="4">
+      <span class="nav-logo-text">NTHRACITE</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="download.html">Download</a>
+      <a href="https://YOUR-LEMONSQUEEZY-CHECKOUT-URL" class="btn-buy">Buy Now</a>
+    </div>
+    <div class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-eyebrow">Legal</p>
+      <h1 class="page-title">Terms of Service</h1>
+      <p class="page-date">Effective date: 2025-01-01 &nbsp;·&nbsp; Last updated: 2025-01-01</p>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <h2 class="section-title">1. Acceptance of terms</h2>
+      <p>By purchasing, downloading, or using 4nthracite ("the Software"), you agree to be bound by these Terms of Service. If you do not agree, do not purchase or use the Software.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">2. License</h2>
+      <p>Upon purchase, you are granted a non-exclusive, non-transferable, perpetual licence to install and use 4nthracite on your personal computers. This licence is for personal or commercial creative use — music production, sound design, live performance, and similar activities.</p>
+      <p>You may install the Software on any computers you personally own or control. You may not:</p>
+      <ul>
+        <li>Redistribute, resell, sublicense, rent, or lease the Software to third parties.</li>
+        <li>Decompile, reverse-engineer, or disassemble the Software beyond what is permitted by applicable law.</li>
+        <li>Remove or alter any copyright or proprietary notices in the Software.</li>
+        <li>Share your licence key or download link publicly.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">3. Payment and pricing</h2>
+      <p>4nthracite is sold as a one-time purchase. There is no subscription. The price is set at the time of purchase and is subject to change for new customers; existing purchases are not retroactively affected.</p>
+      <p>Payments are processed by Lemon Squeezy, our merchant of record. Lemon Squeezy handles VAT collection and remittance in applicable jurisdictions. Your invoice will be issued by Lemon Squeezy.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">4. Refunds</h2>
+      <p>We offer a 14-day refund policy for digital goods. Please see our <a href="refund.html">Refund Policy</a> for full details and how to request a refund.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">5. Updates</h2>
+      <p>We aim to provide updates and bug fixes for 4nthracite. Updates are provided at our discretion and are not guaranteed. Major version updates (e.g., version 1.x to 2.x) may or may not be included in the original purchase price — this will be communicated clearly if applicable.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">6. Intellectual property</h2>
+      <p>4nthracite and all associated materials are owned by the developer and protected by copyright and other intellectual property laws. Nothing in these terms grants you ownership of the Software itself.</p>
+      <p>Music, audio, and other creative works you produce using 4nthracite remain entirely your own. We claim no rights over your creative output.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">7. Disclaimer of warranties</h2>
+      <p>The Software is provided "as is" without warranty of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement. We do not warrant that the Software will be error-free or uninterrupted.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">8. Limitation of liability</h2>
+      <p>To the maximum extent permitted by applicable law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the Software, even if advised of the possibility of such damages. Our total liability shall not exceed the amount you paid for the Software.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">9. Termination</h2>
+      <p>Your licence to use the Software terminates immediately if you breach any of these terms. Upon termination, you must stop using the Software and delete all copies in your possession.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">10. Governing law</h2>
+      <p>These terms are governed by the laws of the jurisdiction in which the developer is based, without regard to conflict of law principles. Any disputes shall be resolved in the courts of that jurisdiction.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">11. Changes to these terms</h2>
+      <p>We may update these terms from time to time. The effective date at the top of this page will be updated. Continued use of the Software after changes are posted constitutes acceptance of the revised terms.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">12. Contact</h2>
+      <p>Questions about these terms? Contact us at the email address provided on your purchase receipt, or via the contact information on 4nthracite.com.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-logo">4NTHRACITE</span>
+        <p class="footer-tagline">A desktop instrument for explorers.</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="download.html">Download</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refund Policy</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2025 4nthracite. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refunds</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.getElementById('nav-links');
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+  </script>
+
+</body>
+</html>

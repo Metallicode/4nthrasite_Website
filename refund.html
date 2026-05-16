@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refund Policy — 4NTHRACITE</title>
+  <meta name="description" content="4nthracite 14-day refund policy for digital goods. No-questions-asked refunds within 14 days of purchase.">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:     #0a0a0a;
+      --bg2:    #0d0d0d;
+      --green:  #3ddc84;
+      --text:   #c0c0c0;
+      --dim:    #555555;
+      --dim2:   #333333;
+      --border: #1a1a1a;
+      --font:   'Courier New', Courier, monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; }
+    .nav-logo-img { height: 30px; width: auto; filter: invert(1); flex-shrink: 0; }
+    .nav-logo-text { font-size: 1rem; font-weight: bold; color: var(--green); letter-spacing: 0.2em; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: var(--text); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .nav-links a:hover { color: var(--green); text-decoration: none; }
+    .btn-buy {
+      background: var(--green);
+      color: #000 !important;
+      padding: 0.35rem 1rem;
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .btn-buy:hover { background: #55e898; text-decoration: none !important; }
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-toggle span { display: block; width: 22px; height: 1px; background: var(--text); }
+
+    .page-header {
+      padding: 4rem 2rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header-inner { max-width: 720px; margin: 0 auto; }
+    .page-eyebrow { font-size: 0.65rem; color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
+    .page-eyebrow::before { content: '// '; color: var(--green); }
+    .page-title { font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--text); letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .page-date { font-size: 0.75rem; color: var(--dim); }
+
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .highlight-box {
+      border: 1px solid var(--dim2);
+      border-left: 2px solid var(--green);
+      padding: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .highlight-box-label {
+      font-size: 0.65rem;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .highlight-big {
+      font-size: 1.3rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+    .highlight-big span { color: var(--green); }
+    .highlight-sub { font-size: 0.82rem; color: var(--dim); line-height: 1.7; }
+
+    .section { margin-bottom: 3rem; }
+    .section-title {
+      font-size: 0.8rem;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section p { font-size: 0.85rem; color: var(--text); line-height: 1.9; margin-bottom: 0.75rem; }
+    .section ul { margin: 0.5rem 0 0.75rem 1.5rem; }
+    .section ul li { font-size: 0.85rem; color: var(--text); line-height: 1.8; margin-bottom: 0.25rem; }
+
+    .steps {
+      margin: 1rem 0;
+      counter-reset: step;
+    }
+    .step {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      background: var(--dim2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      color: var(--green);
+      font-weight: bold;
+      margin-top: 0.1rem;
+    }
+    .step-text { font-size: 0.85rem; color: var(--text); line-height: 1.8; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      margin-top: 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .footer-logo { font-size: 1rem; font-weight: bold; color: var(--green); letter-spacing: 0.2em; display: block; margin-bottom: 0.4rem; }
+    .footer-tagline { font-size: 0.75rem; color: var(--dim); }
+    .footer-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
+    .footer-nav a { color: var(--dim); font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .footer-nav a:hover { color: var(--green); text-decoration: none; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 0.72rem; color: var(--dim); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { color: var(--dim); font-size: 0.72rem; }
+    .footer-legal a:hover { color: var(--green); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; }
+      .nav-links.open {
+        display: flex;
+        position: fixed;
+        top: 56px; left: 0; right: 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem 2rem;
+        gap: 1.25rem;
+      }
+      .nav-toggle { display: flex; }
+      .page-header { padding: 3rem 1.5rem 2rem; }
+      .content { padding: 3rem 1.5rem; }
+      footer { padding: 2rem 1.5rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="4nthracite_Logo.png" class="nav-logo-img" alt="4">
+      <span class="nav-logo-text">NTHRACITE</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="download.html">Download</a>
+      <a href="https://YOUR-LEMONSQUEEZY-CHECKOUT-URL" class="btn-buy">Buy Now</a>
+    </div>
+    <div class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-eyebrow">Legal</p>
+      <h1 class="page-title">Refund Policy</h1>
+      <p class="page-date">Effective date: 2025-01-01 &nbsp;·&nbsp; Last updated: 2025-01-01</p>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="highlight-box">
+      <p class="highlight-box-label">The short version</p>
+      <p class="highlight-big"><span>14-day</span> no-questions-asked refund window</p>
+      <p class="highlight-sub">If you purchase 4nthracite and decide it's not for you — for any reason — within 14 days of purchase, contact us for a full refund. No interrogation. We want you to feel confident buying.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Eligibility</h2>
+      <p>You are eligible for a full refund if:</p>
+      <ul>
+        <li>Your refund request is submitted within <strong>14 calendar days</strong> of the original purchase date.</li>
+        <li>You have not previously received a refund for 4nthracite.</li>
+      </ul>
+      <p>You do not need to provide a reason, but feedback on why the app didn't meet your needs is always welcome — it helps us improve.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">How to request a refund</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <p class="step-text">Email us at the address shown on your purchase receipt, with the subject line "Refund request".</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <p class="step-text">Include your order number (found in the receipt email from Lemon Squeezy).</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <p class="step-text">We will process the refund via Lemon Squeezy within 3–5 business days. The amount will be returned to your original payment method.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">After a refund</h2>
+      <p>Upon refund, your licence to use 4nthracite is revoked. Please delete the application and any copies from your devices. Download links associated with your purchase will be deactivated.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Digital goods — EU/UK consumer rights</h2>
+      <p>Under EU and UK consumer law, you have the right to withdraw from a digital goods purchase within 14 days. By downloading or accessing the Software, you expressly request that delivery begin immediately and acknowledge that you lose the right of withdrawal once delivery is complete — however, we voluntarily extend the full 14-day refund window regardless of download status, as described above.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Processing</h2>
+      <p>Refunds are issued via the original payment method. Processing time is typically 3–5 business days after we approve the request, though your bank or card issuer may take additional time to reflect the credit.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Questions</h2>
+      <p>If you have any questions about this policy, contact us at the email address on your purchase receipt or via the contact information on 4nthracite.com. We respond within 1–2 business days.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-logo">4NTHRACITE</span>
+        <p class="footer-tagline">A desktop instrument for explorers.</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="download.html">Download</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refund Policy</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2025 4nthracite. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refunds</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.getElementById('nav-links');
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+  </script>
+
+</body>
+</html>

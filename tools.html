@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tools — 4NTHRACITE</title>
+  <meta name="description" content="All 26 instruments and sequencers in 4nthracite — full documentation and video tutorials.">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:     #0a0a0a;
+      --bg2:    #0d0d0d;
+      --bg3:    #111111;
+      --green:  #3ddc84;
+      --text:   #c0c0c0;
+      --dim:    #555555;
+      --dim2:   #333333;
+      --border: #1a1a1a;
+      --font:   'Courier New', Courier, monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-logo-img {
+      height: 30px;
+      width: auto;
+      filter: invert(1);
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--green);
+      letter-spacing: 0.2em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--text);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .nav-links a:hover { color: var(--green); text-decoration: none; }
+    .nav-links a.active { color: var(--green); }
+    .btn-buy {
+      background: var(--green);
+      color: #000 !important;
+      padding: 0.35rem 1rem;
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .btn-buy:hover { background: #55e898; text-decoration: none !important; }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span { display: block; width: 22px; height: 1px; background: var(--text); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 4rem 2rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .page-eyebrow {
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .page-eyebrow::before { content: '// '; color: var(--green); }
+    .page-title {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--text);
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .page-title span { color: var(--green); }
+    .page-desc {
+      font-size: 0.85rem;
+      color: var(--dim);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    /* ── TOC ── */
+    .toc {
+      padding: 2rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .toc-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .toc-group {}
+    .toc-group-label {
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .toc-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1rem;
+    }
+    .toc-links a {
+      font-size: 0.75rem;
+      color: var(--dim);
+      letter-spacing: 0.05em;
+    }
+    .toc-links a:hover { color: var(--green); text-decoration: none; }
+
+    /* ── MAIN CONTENT ── */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    /* ── CATEGORY ── */
+    .category {
+      margin-bottom: 5rem;
+    }
+    .category-header {
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .category-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── TOOL ENTRY ── */
+    .tool-entry {
+      margin-bottom: 3rem;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent, var(--green));
+    }
+    .tool-entry-header {
+      padding: 1.5rem 1.5rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+    .tool-entry-identity {}
+    .tool-entry-top {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.3rem;
+    }
+    .tool-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent, var(--green));
+      flex-shrink: 0;
+    }
+    .tool-label {
+      font-size: 0.72rem;
+      font-weight: bold;
+      letter-spacing: 0.2em;
+      color: var(--accent, var(--green));
+      text-transform: uppercase;
+    }
+    .tool-entry-name {
+      font-size: 1.1rem;
+      color: var(--text);
+      letter-spacing: 0.03em;
+    }
+    .tool-type {
+      font-size: 0.68rem;
+      color: var(--dim);
+      letter-spacing: 0.12em;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--dim2);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tool-entry-body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 2rem;
+      align-items: start;
+    }
+    .tool-description {
+      font-size: 0.82rem;
+      color: var(--text);
+      line-height: 1.9;
+    }
+    .tool-description p + p { margin-top: 0.75rem; }
+    .tool-controls-label {
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .tool-controls {
+      font-size: 0.78rem;
+      color: var(--dim);
+      line-height: 1.7;
+    }
+
+    /* ── YOUTUBE PLACEHOLDER ── */
+    .yt-wrap {}
+    .yt-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--bg3);
+      border: 1px dashed var(--dim2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--dim);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      position: relative;
+    }
+    .yt-placeholder[data-youtube-id]:not([data-youtube-id=""]) {
+      /* when a real ID is present, hide placeholder text and show iframe via JS */
+    }
+    .yt-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--dim2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dim);
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .yt-label { text-transform: uppercase; }
+    .yt-id-hint {
+      font-size: 0.65rem;
+      color: var(--dim2);
+      margin-top: 0.25rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      margin-top: 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .footer-logo {
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .footer-tagline { font-size: 0.75rem; color: var(--dim); }
+    .footer-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
+    .footer-nav a { color: var(--dim); font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .footer-nav a:hover { color: var(--green); text-decoration: none; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 0.72rem; color: var(--dim); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { color: var(--dim); font-size: 0.72rem; }
+    .footer-legal a:hover { color: var(--green); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .tool-entry-body { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; }
+      .nav-links.open {
+        display: flex;
+        position: fixed;
+        top: 56px; left: 0; right: 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem 2rem;
+        gap: 1.25rem;
+      }
+      .nav-toggle { display: flex; }
+      .page-header { padding: 3rem 1.5rem 2rem; }
+      .toc { padding: 1.5rem; }
+      .content { padding: 3rem 1.5rem; }
+      .tool-entry-header { gap: 0.75rem; }
+      footer { padding: 2rem 1.5rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="4nthracite_Logo.png" class="nav-logo-img" alt="4">
+      <span class="nav-logo-text">NTHRACITE</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html" class="active">Tools</a>
+      <a href="download.html">Download</a>
+      <a href="https://YOUR-LEMONSQUEEZY-CHECKOUT-URL" class="btn-buy">Buy Now</a>
+    </div>
+    <div class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-eyebrow">Documentation</p>
+      <h1 class="page-title">The <span>26 instruments</span></h1>
+      <p class="page-desc">
+        Full descriptions of every tool in 4nthracite, organised by category.
+        Video tutorials will appear in the placeholders below as they are published.
+      </p>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-inner">
+      <div class="toc-group">
+        <p class="toc-group-label">Rhythm Machines</p>
+        <div class="toc-links">
+          <a href="#kik">KIK</a>
+          <a href="#euclidean">EUCLIDEAN</a>
+          <a href="#nlseq">NL SEQ</a>
+          <a href="#cells">CELLS</a>
+          <a href="#beats">BEATS</a>
+          <a href="#snake">SNAKE</a>
+          <a href="#balls">BALLS</a>
+          <a href="#machine">MACHINE</a>
+        </div>
+      </div>
+      <div class="toc-group">
+        <p class="toc-group-label">Synths</p>
+        <div class="toc-links">
+          <a href="#t303">T-303</a>
+          <a href="#pendulum">PENDULUM</a>
+          <a href="#edoarp">EDO ARP</a>
+          <a href="#tension">TENSION</a>
+          <a href="#topo">TOPO</a>
+          <a href="#paint">PAINT</a>
+          <a href="#space">SPACE</a>
+        </div>
+      </div>
+      <div class="toc-group">
+        <p class="toc-group-label">Harmony &amp; Melody</p>
+        <div class="toc-links">
+          <a href="#geohar">GEO HAR</a>
+          <a href="#tonnetz">TONNETZ</a>
+          <a href="#mandala">MANDALA</a>
+          <a href="#jazz">JAZZ</a>
+          <a href="#maqam">MAQAM</a>
+          <a href="#chaos">CHAOS</a>
+        </div>
+      </div>
+      <div class="toc-group">
+        <p class="toc-group-label">Granular</p>
+        <div class="toc-links">
+          <a href="#granular">GRANULAR</a>
+          <a href="#grnmtx">GRN MTX</a>
+          <a href="#looper">LOOPER</a>
+        </div>
+      </div>
+      <div class="toc-group">
+        <p class="toc-group-label">FX &amp; Ambience</p>
+        <div class="toc-links">
+          <a href="#shoegaze">SHOEGAZE</a>
+          <a href="#spectral">SPECTRAL</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ═══════════════ RHYTHM MACHINES ═══════════════ -->
+    <div class="category">
+      <p class="category-header">Rhythm Machines</p>
+
+      <!-- KIK -->
+      <div class="tool-entry" id="kik" style="--accent:#ff3300">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">KIK</span>
+            </div>
+            <h2 class="tool-entry-name">Industrial Kick Engine</h2>
+          </div>
+          <span class="tool-type">Drum Synth</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A precision kick drum synthesizer built around layered synthesis stages. The core generates a pitched transient from a tunable oscillator with pitch envelope; the transient &amp; noise layer adds attack click and body noise; the destruction &amp; rumble stage applies saturation and low-end resonance for industrial weight.</p>
+              <p>A 16-step pattern sequencer with accent and reverse modes controls when the engine fires.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Pitch start/end &nbsp;·&nbsp; Decay &nbsp;·&nbsp; Waveform &nbsp;·&nbsp; Click level &nbsp;·&nbsp; Noise colour &nbsp;·&nbsp; Drive &nbsp;·&nbsp; Sub resonance &nbsp;·&nbsp; Accent steps &nbsp;·&nbsp; Fill probability</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EUCLIDEAN -->
+      <div class="tool-entry" id="euclidean" style="--accent:#00ccbb">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">EUCLIDEAN</span>
+            </div>
+            <h2 class="tool-entry-name">Euclidean Rhythm Generator</h2>
+          </div>
+          <span class="tool-type">Drum Synth · Sampler · Sequencer</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A 6-track polymetric drum machine that distributes hits evenly across steps using the Euclidean (Bjorklund) algorithm. Each track shows its pattern as a necklace of dots around a circle — active hits glow in the track colour, the current step is highlighted with a clockhand needle.</p>
+              <p>Each track has its own step count (K), so tracks naturally loop at different lengths, creating evolving polymetric grooves. Each hit triggers a synthesised drum voice with carrier oscillator, FM modulator, AM modulator, noise layer, wavefold distortion, and resonator. Sample override per track.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Hits (N) &nbsp;·&nbsp; Steps (K) &nbsp;·&nbsp; Offset (R) per track &nbsp;·&nbsp; 12 synth parameters per voice &nbsp;·&nbsp; Sample mode</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NL SEQ -->
+      <div class="tool-entry" id="nlseq" style="--accent:#00ccbb">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">NL SEQ</span>
+            </div>
+            <h2 class="tool-entry-name">Non-Linear Drum Sequencer</h2>
+          </div>
+          <span class="tool-type">Sequencer</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A 6-channel drum sequencer where a drawn tempo curve controls how fast or slow each individual step plays. The curve runs FAST (top) to SLOW (bottom) and is drawn directly on a canvas above the step grid.</p>
+              <p>The BAL button calculates timing deficit from drawn changes and randomly compensates by speeding up untouched steps — keeping the total loop length equal to the global BPM.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Curve draw tools (pen / straight line) &nbsp;·&nbsp; Curve presets (flat, ramp, sine, accel, decel, random) &nbsp;·&nbsp; BAL button &nbsp;·&nbsp; 8–64 steps &nbsp;·&nbsp; Per-channel synth</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CELLS -->
+      <div class="tool-entry" id="cells" style="--accent:#ffd93d">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">CELLS</span>
+            </div>
+            <h2 class="tool-entry-name">Cellular Automata Sequencer</h2>
+          </div>
+          <span class="tool-type">Sequencer · Generative</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>An 8-track drum sequencer driven by Langton's lambda cellular automaton rule. Each of the 16 cells holds a state 0–7 mapping to a rhythmic subdivision: 0=silent, 1=single hit, up through triplets, quadruplets, and 32nd-note bursts.</p>
+              <p>The CHAOS knob sets lambda — how ordered or random the CA's evolution is. Patterns mutate every N loops; any track can be frozen. Click cells to manually set states.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">CHAOS (λ) &nbsp;·&nbsp; RATCHET probability &nbsp;·&nbsp; EVOLVE RATE &nbsp;·&nbsp; DENSITY &nbsp;·&nbsp; Per-track freeze &nbsp;·&nbsp; Per-track sample loading</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BEATS -->
+      <div class="tool-entry" id="beats" style="--accent:#6bcb77">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">BEATS</span>
+            </div>
+            <h2 class="tool-entry-name">Polymetric Beats</h2>
+          </div>
+          <span class="tool-type">Sequencer · Polyrhythm</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A 6-channel step sequencer where each channel runs at its own independent step count (4–32), naturally producing polyrhythmic phase drift. A 7-step channel against a 5-step channel creates a 35-step composite before repeating.</p>
+              <p>Per-step pitch nudge, just-intonation snap, and swing control allow fine timing and harmonic shaping of each channel.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Per-channel step count &nbsp;·&nbsp; Pitch offsets per step &nbsp;·&nbsp; JI snap &nbsp;·&nbsp; Swing &nbsp;·&nbsp; Per-channel sample loading</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SNAKE -->
+      <div class="tool-entry" id="snake" style="--accent:#39FF14">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">SNAKE</span>
+            </div>
+            <h2 class="tool-entry-name">Snake Sequencer</h2>
+          </div>
+          <span class="tool-type">Sequencer · Game</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>An arcade-style sequencer where you steer a snake across a grid with arrow keys. The grid is seeded with coloured cells mapped to 4 synth slots. As the snake consumes cells it records a sequence of sound events; Play loops back through the recorded trail.</p>
+              <p>Bit-crush and sample-rate reduction quantizer for lo-fi textures. Pattern generator seeds the grid with interesting initial configurations.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">4 ADSR synth slots &nbsp;·&nbsp; Arcade presets &nbsp;·&nbsp; Loop mode &nbsp;·&nbsp; Bit-crush &nbsp;·&nbsp; Pattern generator</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BALLS -->
+      <div class="tool-entry" id="balls" style="--accent:#cc88ff">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">BALLS</span>
+            </div>
+            <h2 class="tool-entry-name">Ball Physics Sequencer</h2>
+          </div>
+          <span class="tool-type">Sequencer · Physics</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A physics-based sequencer where bouncing balls represent musical events. Each ball has a pitch and synth voice; wall and ball collisions trigger notes. Adjust gravity and damping to change how long the bounce energy sustains.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Drop balls &nbsp;·&nbsp; Gravity &nbsp;·&nbsp; Damping &nbsp;·&nbsp; Per-ball pitch</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MACHINE -->
+      <div class="tool-entry" id="machine" style="--accent:#8BC34A">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">MACHINE</span>
+            </div>
+            <h2 class="tool-entry-name">Kinetic Audio Physics Engine</h2>
+          </div>
+          <span class="tool-type">Sequencer · Physics</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A 2D physics sandbox where emitters launch streams of balls that bounce off walls and user-placed objects. Every collision triggers a sound event whose pitch and timbre is determined by the emitter preset and collision geometry.</p>
+              <p>Non-repeating rhythms emerge from simple initial conditions — the same setup never plays identically twice.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Emitter placement &nbsp;·&nbsp; Velocity &nbsp;·&nbsp; Angle &nbsp;·&nbsp; Rate &nbsp;·&nbsp; Synth parameters</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /category rhythm -->
+
+    <!-- ═══════════════ SYNTHS ═══════════════ -->
+    <div class="category">
+      <p class="category-header">Synths</p>
+
+      <!-- T-303 -->
+      <div class="tool-entry" id="t303" style="--accent:#ff5500">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">T-303</span>
+            </div>
+            <h2 class="tool-entry-name">Turing 303</h2>
+          </div>
+          <span class="tool-type">Synth · Sequencer</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A TB-303 style acid synthesizer driven by a 16-bit Turing machine shift register. At 0% probability the register loops identically (stable pattern); at 50% it randomly flips bits (maximum chaos); at 100% it mirror-flips.</p>
+              <p>Click the LED bit-row to write pitch values directly. Features sawtooth or square waveforms, resonant 303-style low-pass filter with envelope modulation, portamento, accent, and reverb.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Probability &nbsp;·&nbsp; Seq length 1–16 &nbsp;·&nbsp; Filter resonance / envelope / decay &nbsp;·&nbsp; Portamento &nbsp;·&nbsp; Accent level &nbsp;·&nbsp; LED pitch editor</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PENDULUM -->
+      <div class="tool-entry" id="pendulum" style="--accent:#00E5FF">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">PENDULUM</span>
+            </div>
+            <h2 class="tool-entry-name">Pendulum Drone</h2>
+          </div>
+          <span class="tool-type">Synth · Physics</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A drone synthesizer whose timbre is controlled by a simulated multi-arm pendulum. Each arm's angular position modulates an audio parameter (filter cutoff or wavefolder drive). Drag the bob to set it in motion; hold to dampen.</p>
+              <p>Arms can be equipped with motors to sustain oscillation indefinitely, creating self-modulating evolving drones.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Arm count &nbsp;·&nbsp; Modulation target per arm &nbsp;·&nbsp; Motor on/off &nbsp;·&nbsp; Drag (mouse)</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EDO ARP -->
+      <div class="tool-entry" id="edoarp" style="--accent:#4d96ff">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">EDO ARP</span>
+            </div>
+            <h2 class="tool-entry-name">Equal Division Arp Synth</h2>
+          </div>
+          <span class="tool-type">Synth · Sequencer</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A synthesizer tunable to any equal division of the octave (EDO) — from 5-EDO to 31-EDO and beyond. The keyboard dynamically redraws for the selected EDO, accurately rendering microtonal pitches.</p>
+              <p>Notes can be played as arpeggio (up / down / up-down / chord / random) or programmed in a 303-style step sequencer.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">EDO selector &nbsp;·&nbsp; Arp mode &nbsp;·&nbsp; Step sequencer (Seq 303 mode)</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TENSION -->
+      <div class="tool-entry" id="tension" style="--accent:#9c5fff">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">TENSION</span>
+            </div>
+            <h2 class="tool-entry-name">Fusion Architect</h2>
+          </div>
+          <span class="tool-type">Synth · Generative</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A 4-operator FM synthesizer driven by a stochastic chord navigation engine. A puck moves through a 2D tension space selecting chord targets that feed pitch into the FM operators. Selectable FM algorithms; operator 4 has self-feedback.</p>
+              <p>SCATTER mode maximises harmonic unpredictability, pushing the puck to distant chord targets and creating dissonant, evolving FM textures.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">FM algorithm &nbsp;·&nbsp; Op ratios &nbsp;·&nbsp; Feedback &nbsp;·&nbsp; Puck speed &nbsp;·&nbsp; Scatter</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOPO -->
+      <div class="tool-entry" id="topo" style="--accent:#00b4d8">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">TOPO</span>
+            </div>
+            <h2 class="tool-entry-name">Topology Sequencer</h2>
+          </div>
+          <span class="tool-type">Sequencer · Visual</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A spatial sequencer on a 35×37 deformable mesh grid. Rows = MIDI pitch; columns = time slices. A smudge brush distorts the mesh in real time; the sequencer reads pitch from a selected column — deformation above/below rest maps to semitone pitch shifts.</p>
+              <p>Moving between columns changes the melodic contour entirely, allowing you to sculpt a landscape of different melodies and navigate between them.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Smudge brush &nbsp;·&nbsp; Column selector &nbsp;·&nbsp; Base note &nbsp;·&nbsp; 16 steps</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAINT -->
+      <div class="tool-entry" id="paint" style="--accent:#ff6b6b">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">PAINT</span>
+            </div>
+            <h2 class="tool-entry-name">Paint Synth</h2>
+          </div>
+          <span class="tool-type">Synth · Visual</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A canvas synthesizer where painting directly produces sound. Vertical axis = frequency; horizontal axis = time. A scanning playhead converts painted pixels to amplitude at the corresponding frequency.</p>
+              <p>Draw melodies as strokes or create rich spectral textures through layered colour. Different brush colours map to different timbres.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Brush size / colour &nbsp;·&nbsp; Eraser &nbsp;·&nbsp; Clear &nbsp;·&nbsp; Scan speed</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPACE -->
+      <div class="tool-entry" id="space" style="--accent:#FF2A6D">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">SPACE</span>
+            </div>
+            <h2 class="tool-entry-name">Neural Topology Synth</h2>
+          </div>
+          <span class="tool-type">Synth · Analysis</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>Loads an audio sample and extracts 8 spectral "engrams" — FFT frequency snapshots from evenly-spaced moments. These are distributed across a visual neural network of hundreds of nodes.</p>
+              <p>Moving the mouse probe blends nearby engrams in real time, driving 40 simultaneous oscillator voices. The entire timbral space is defined by your source audio.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Sample loading &nbsp;·&nbsp; Mouse probe &nbsp;·&nbsp; 40-voice oscillator blend</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /category synths -->
+
+    <!-- ═══════════════ HARMONY & MELODY ═══════════════ -->
+    <div class="category">
+      <p class="category-header">Harmony &amp; Melody</p>
+
+      <!-- GEO HAR -->
+      <div class="tool-entry" id="geohar" style="--accent:#9C27B0">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">GEO HAR</span>
+            </div>
+            <h2 class="tool-entry-name">Geometric Harmony Sequencer</h2>
+          </div>
+          <span class="tool-type">Sequencer · Harmony</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A timeline canvas where chord blocks are placed by clicking. A block's horizontal position and width sets start time and duration; vertical position and height sets pitch range. A playhead sweeps left to right triggering polyphonic chords.</p>
+              <p>Double-click to add a block, drag to move, resize from edges. Just-intonation snap aligns pitches to pure harmonic ratios.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Block placement &nbsp;·&nbsp; Just-intonation snap &nbsp;·&nbsp; Playhead speed &nbsp;·&nbsp; Key</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TONNETZ -->
+      <div class="tool-entry" id="tonnetz" style="--accent:#bb66ff">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">TONNETZ</span>
+            </div>
+            <h2 class="tool-entry-name">Tonnetz Grid</h2>
+          </div>
+          <span class="tool-type">Harmony · Recorder</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>An interactive Neo-Riemannian Tonnetz — a hexagonal lattice where pitch classes are arranged so harmonically close notes sit physically close. Right = perfect fifth; diagonal = major/minor third. Any triangle of adjacent nodes forms a triad.</p>
+              <p>Hover to preview pitches; click nodes to record a path that plays back as melody or voice-leading.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Hover preview &nbsp;·&nbsp; Click-record &nbsp;·&nbsp; Playback direction &nbsp;·&nbsp; Tempo</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MANDALA -->
+      <div class="tool-entry" id="mandala" style="--accent:#ff9f43">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">MANDALA</span>
+            </div>
+            <h2 class="tool-entry-name">Harmonic Mandala</h2>
+          </div>
+          <span class="tool-type">Harmony · Recorder</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A generative chord explorer displayed as nested rings radiating from a central root. Each ring expands outward by applying harmonic rules (perfect intervals, Coltrane changes, Zappa extensions) to the previous ring's chords.</p>
+              <p>Hover to hear; click to record into a looping sequence. Playback direction: forward, backward, or ping-pong.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Root &nbsp;·&nbsp; Harmonic rule &nbsp;·&nbsp; Loop direction &nbsp;·&nbsp; Loop tempo</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- JAZZ -->
+      <div class="tool-entry" id="jazz" style="--accent:#00E5FF">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">JAZZ</span>
+            </div>
+            <h2 class="tool-entry-name">Stochastic Fusion Groove Architect</h2>
+          </div>
+          <span class="tool-type">Groove · Generative</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A stochastic groove generator simulating a small fusion ensemble. A chord progression displayed as blocks is randomisable. Three voices — guitar, violin, saxophone — each generate idiomatic phrasing over the changes.</p>
+              <p>A live-play mode lets you improvise alongside the generated ensemble. Per-instrument volume control.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Chord randomiser &nbsp;·&nbsp; 3 instrument voices &nbsp;·&nbsp; Live-play mode &nbsp;·&nbsp; Per-instrument volume</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAQAM -->
+      <div class="tool-entry" id="maqam" style="--accent:#FFD700">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">MAQAM</span>
+            </div>
+            <h2 class="tool-entry-name">Maqam Step Sequencer</h2>
+          </div>
+          <span class="tool-type">Sequencer · Microtonal</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A step sequencer tuned to Arabic maqam scales with authentic microtonal intonation. Maqams include Nahawand, Hijaz, Bayati, Rast, and others. The pitch rows update to reflect each maqam's specific interval ratios including quarter-tone steps.</p>
+              <p>Notes placed with 0.5-step resolution; rendered accurately without rounding to 12-TET.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Maqam selector &nbsp;·&nbsp; Grid note placement &nbsp;·&nbsp; Step count &nbsp;·&nbsp; Tempo</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHAOS -->
+      <div class="tool-entry" id="chaos" style="--accent:#aa44ff">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">CHAOS</span>
+            </div>
+            <h2 class="tool-entry-name">Edge of Chaos</h2>
+          </div>
+          <span class="tool-type">Sequencer · Generative</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A generative sequencer driven by a 5-neighbourhood cellular automaton where each live cell corresponds to a scale degree. A circular probe cursor collects cells inside it each beat and triggers their pitches. The CA evolves continuously.</p>
+              <p>Up to 12 scale degree slots; scan modes: random, left-to-right, top-to-bottom. Sample override per slot.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Probe position / size &nbsp;·&nbsp; CA speed &nbsp;·&nbsp; Scan mode &nbsp;·&nbsp; 12 scale-degree synth slots &nbsp;·&nbsp; Sample override</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /category harmony -->
+
+    <!-- ═══════════════ GRANULAR ═══════════════ -->
+    <div class="category">
+      <p class="category-header">Granular</p>
+
+      <!-- GRANULAR -->
+      <div class="tool-entry" id="granular" style="--accent:#ffaa33">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">GRANULAR</span>
+            </div>
+            <h2 class="tool-entry-name">Granular Synth</h2>
+          </div>
+          <span class="tool-type">Granular · Sampler</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A classic granular synthesis engine. Load any audio file; a read-position pointer moves through the sample. The engine continuously fires small grains; SIZE, DENSITY, and envelope shape determine texture.</p>
+              <p>DRIFT causes the read position to wander. Grains can play forward, reverse, or alternating. Pitch transposition is independent of playback speed.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Sample loading &nbsp;·&nbsp; Read position &nbsp;·&nbsp; Grain size &nbsp;·&nbsp; Density &nbsp;·&nbsp; Drift &nbsp;·&nbsp; Direction &nbsp;·&nbsp; Pitch transpose</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRN MTX -->
+      <div class="tool-entry" id="grnmtx" style="--accent:#00FF88">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">GRN MTX</span>
+            </div>
+            <h2 class="tool-entry-name">Matrix Granular</h2>
+          </div>
+          <span class="tool-type">Granular · Sampler</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A granular synthesizer built around a scrollable grid matrix. Horizontal = time, vertical = pitch offset. Paint cells to arm grain-trigger positions; a moving playhead fires grains at armed cells from a loaded audio sample.</p>
+              <p>SCATTER randomises read position for cloud-like texture. Transient detection intelligently maps sample regions to the pitch axis.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Grid painting &nbsp;·&nbsp; Grain size &nbsp;·&nbsp; Scatter &nbsp;·&nbsp; Sample loading &nbsp;·&nbsp; Playhead</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOOPER -->
+      <div class="tool-entry" id="looper" style="--accent:#ff3355">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">LOOPER</span>
+            </div>
+            <h2 class="tool-entry-name">Live Loop Recorder</h2>
+          </div>
+          <span class="tool-type">Sampler · FX</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A 5-channel live looper with integrated step sequencer. Each channel records from any audio input and plays back as a continuous loop. Channel 1 is master; SYNC auto-stops recording on channels 2–5 at the master loop length.</p>
+              <p>Each channel has a waveform display with draggable start/end trim markers (down to 5ms). A 16-step sequencer at the bottom triggers any channel per step, synced to global BPM.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Record / play per channel &nbsp;·&nbsp; SYNC &nbsp;·&nbsp; Trim markers &nbsp;·&nbsp; 16-step sequencer</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /category granular -->
+
+    <!-- ═══════════════ FX & AMBIENCE ═══════════════ -->
+    <div class="category">
+      <p class="category-header">FX &amp; Ambience</p>
+
+      <!-- SHOEGAZE -->
+      <div class="tool-entry" id="shoegaze" style="--accent:#cc44ff">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">SHOEGAZE</span>
+            </div>
+            <h2 class="tool-entry-name">Shoegaze Processor</h2>
+          </div>
+          <span class="tool-type">FX · Ambience</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A live audio processor for lush, cascading ambience. Processes mic or file input through three stages: granular pitch shifter (harmonic colour), feedback delay network (dense diffuse reverb), and shimmer (pitch-shifts reverb up an octave and feeds it back into the FDN).</p>
+              <p>HOLD freezes the current wet tail indefinitely, sustaining infinite reverb pads.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">Granular pitch shift &nbsp;·&nbsp; FDN reverb size / decay &nbsp;·&nbsp; Shimmer amount &nbsp;·&nbsp; HOLD button &nbsp;·&nbsp; Wet/dry</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPECTRAL -->
+      <div class="tool-entry" id="spectral" style="--accent:#48dbfb">
+        <div class="tool-entry-header">
+          <div class="tool-entry-identity">
+            <div class="tool-entry-top">
+              <div class="tool-dot"></div>
+              <span class="tool-label">SPECTRAL</span>
+            </div>
+            <h2 class="tool-entry-name">Spectral Editor</h2>
+          </div>
+          <span class="tool-type">Additive · Analysis</span>
+        </div>
+        <div class="tool-entry-body">
+          <div>
+            <div class="tool-description">
+              <p>A partial-based additive synthesizer with a visual editor. Load audio to extract sinusoidal components via FFT partial tracking — each partial appears as a dot on the frequency/amplitude canvas.</p>
+              <p>Drag partials to change frequency or amplitude; draw new ones from scratch; delete existing ones. Playback resynthesizes the current partial set in real time.</p>
+            </div>
+            <p class="tool-controls-label">Key controls</p>
+            <p class="tool-controls">FFT analysis &nbsp;·&nbsp; Partial drag &nbsp;·&nbsp; Multi-select &nbsp;·&nbsp; Add / delete partials &nbsp;·&nbsp; Real-time resynthesis</p>
+          </div>
+          <div class="yt-wrap">
+            <div class="yt-placeholder" data-youtube-id="">
+              <div class="yt-icon">&#9654;</div>
+              <span class="yt-label">Tutorial coming soon</span>
+              <span class="yt-id-hint">data-youtube-id=""</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /category fx -->
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-logo">4NTHRACITE</span>
+        <p class="footer-tagline">A desktop instrument for explorers.</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="download.html">Download</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refund Policy</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2025 4nthracite. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refunds</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.getElementById('nav-links');
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+
+    // Activate YouTube embeds when a data-youtube-id is present
+    document.querySelectorAll('.yt-placeholder[data-youtube-id]').forEach(el => {
+      const id = el.getAttribute('data-youtube-id');
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${id}`;
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.style.cssText = 'width:100%;height:100%;position:absolute;top:0;left:0;border:none;';
+      el.style.position = 'relative';
+      el.innerHTML = '';
+      el.appendChild(iframe);
+    });
+  </script>
+
+</body>
+</html>
