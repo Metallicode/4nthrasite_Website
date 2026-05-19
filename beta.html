@@ -1083,31 +1083,68 @@ mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
       return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
+    // Column 3 = "1" → Dominique confirmed receipt of signed PDF → full access
     function grantAccess(name) {
-      const agreed = localStorage.getItem('anthracite_agreement_v1');
-      if (!agreed) {
-        // Keep gate visible but switch to agreement prompt
-        const gate = document.getElementById('beta-gate');
-        if (gate) gate.innerHTML = `
-          <div class="gate-inner">
-            <img src="4nthracite_Logo.png" class="gate-logo-img" alt="4nthracite">
-            <span class="gate-logo-text">NTHRACITE</span>
-            <p class="gate-title">One more step</p>
-            <p class="gate-sub">
-              Welcome, ${escapeHtml(name)}.<br><br>
-              Before accessing the beta program, please read and sign the Beta Testing Agreement.
-            </p>
-            <a href="agreement.html" class="gate-btn" style="display:block;text-align:center;text-decoration:none;line-height:normal;padding:0.75rem 1rem;">
-              Read &amp; Sign Agreement &rarr;
-            </a>
-          </div>`;
-        return;
-      }
       document.body.classList.remove('gated');
       const gate = document.getElementById('beta-gate');
       if (gate) gate.remove();
       const title = document.querySelector('.page-title');
       if (title) title.innerHTML = 'Hello, <span>' + escapeHtml(name) + '.</span>';
+    }
+
+    // Column 3 = "0", agreement not yet signed → prompt tester to sign first
+    function showAgreementPrompt(name) {
+      const gate = document.getElementById('beta-gate');
+      if (!gate) return;
+      gate.innerHTML = `
+        <div class="gate-inner">
+          <img src="4nthracite_Logo.png" class="gate-logo-img" alt="4nthracite">
+          <span class="gate-logo-text">NTHRACITE</span>
+          <p class="gate-title">One more step</p>
+          <p class="gate-sub">
+            Welcome, ${escapeHtml(name)}.<br><br>
+            Before accessing the beta program, please read and sign the Beta Testing Agreement.
+            Once we receive your signed PDF your access will be activated.
+          </p>
+          <a href="agreement.html" class="gate-btn" style="display:block;text-align:center;text-decoration:none;line-height:normal;padding:0.75rem 1rem;">
+            Read &amp; Sign Agreement &rarr;
+          </a>
+        </div>`;
+    }
+
+    // Column 3 = "0", agreement already signed → waiting for manual confirmation
+    function showPending(name) {
+      const gate = document.getElementById('beta-gate');
+      if (!gate) return;
+      gate.innerHTML = `
+        <div class="gate-inner">
+          <img src="4nthracite_Logo.png" class="gate-logo-img" alt="4nthracite">
+          <span class="gate-logo-text">NTHRACITE</span>
+          <p class="gate-title">Pending review</p>
+          <p class="gate-sub">
+            Thanks, ${escapeHtml(name)}.<br><br>
+            Your signed agreement is being reviewed. Once confirmed,
+            your access will be activated — usually within 1–2 business days.
+            Check back here soon.
+          </p>
+          <a href="mailto:support@metallicode.com" class="gate-btn" style="display:block;text-align:center;text-decoration:none;line-height:normal;padding:0.75rem 1rem;background:transparent;color:var(--text);border:1px solid var(--dim2);font-size:0.75rem;">
+            support@metallicode.com
+          </a>
+        </div>`;
+    }
+
+    // Silently re-fetches the sheet in case approval status changed since last visit
+    async function silentRecheck(name, email) {
+      try {
+        const resp = await fetch(SHEET_CSV);
+        if (!resp.ok) return;
+        const rows  = parseCSV(await resp.text());
+        const match = rows.find(r => r[1].trim().toLowerCase() === email.toLowerCase());
+        if (match && (match[2] || '').trim() === '1') {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({ name, email, approved: true }));
+          grantAccess(name);
+        }
+      } catch(e) {}
     }
 
     async function checkAccess() {
@@ -1129,9 +1166,20 @@ mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
         const match = rows.find(r => r[1].trim().toLowerCase() === email);
 
         if (match) {
-          const name = match[0].trim() || 'tester';
-          localStorage.setItem(STORAGE_KEY, JSON.stringify({ name, email }));
-          grantAccess(name);
+          const name     = match[0].trim() || 'tester';
+          const approved = (match[2] || '').trim() === '1';
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({ name, email, approved }));
+
+          if (approved) {
+            grantAccess(name);
+          } else {
+            const agreed = localStorage.getItem('anthracite_agreement_v1');
+            if (agreed) {
+              showPending(name);
+            } else {
+              showAgreementPrompt(name);
+            }
+          }
         } else {
           errEl.textContent = 'Email not recognised. Contact support@metallicode.com if you think this is a mistake.';
           btn.textContent   = 'Continue →';
@@ -1144,13 +1192,29 @@ mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
       }
     }
 
-    // Check localStorage on load — skip gate if already authed
+    // Check localStorage on load
     (function () {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         try {
-          const { name } = JSON.parse(stored);
-          if (name) { grantAccess(name); return; }
+          const { name, email, approved } = JSON.parse(stored);
+          if (name && approved) {
+            // Already approved — instant access, no sheet check needed
+            grantAccess(name);
+            return;
+          }
+          if (name && email) {
+            // Known tester, not yet approved — show appropriate state,
+            // then silently recheck the sheet in case status has changed
+            const agreed = localStorage.getItem('anthracite_agreement_v1');
+            if (agreed) {
+              showPending(name);
+            } else {
+              showAgreementPrompt(name);
+            }
+            silentRecheck(name, email);
+            return;
+          }
         } catch (e) {}
       }
       // Wire up Enter key on the email input
