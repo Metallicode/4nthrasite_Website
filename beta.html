@@ -958,7 +958,7 @@ mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
 
     // Fetch latest release from public releases repo and update version + download links
     (function () {
-      const API = 'https://api.github.com/repos/Metallicode/4nthracite-releases/releases/latest';
+      const API = 'https://api.github.com/repos/Metallicode/4nthracite-releases/releases?per_page=1';
 
       // Maps a filename pattern to a download button id and a data-asset key
       const ASSET_MAP = [
@@ -972,7 +972,9 @@ mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
 
       fetch(API)
         .then(r => r.ok ? r.json() : Promise.reject(r.status))
-        .then(data => {
+        .then(list => {
+          const data = list[0];
+          if (!data) return;
           // Update every version badge on the page
           document.querySelectorAll('.app-version').forEach(el => {
             el.textContent = data.tag_name;
