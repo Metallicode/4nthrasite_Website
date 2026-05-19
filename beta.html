@@ -497,7 +497,7 @@
   <!-- PAGE HEADER -->
   <div class="page-header">
     <div class="page-header-inner">
-      <p class="page-eyebrow">Beta access — v0.1.0</p>
+      <p class="page-eyebrow">Beta access — <span class="app-version">v0.1.0</span></p>
       <h1 class="page-title">Welcome, <span>beta tester.</span></h1>
       <p class="page-desc">
         Thank you for being here. Your feedback during this early phase is what
@@ -534,14 +534,14 @@
     <div class="os-panel" id="panel-windows">
 
       <div class="download-strip">
-        <p class="download-strip-title">Download — Windows 10/11 (64-bit)</p>
+        <p class="download-strip-title">Download <span class="app-version">v0.1.0</span> — Windows 10/11 (64-bit)</p>
         <div class="download-links">
-          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download recommended" target="_blank" rel="noopener">
-            4nthracite_0.1.0_x64-setup.exe
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" id="dl-win-exe" class="btn-download recommended" target="_blank" rel="noopener">
+            <span class="btn-filename">4nthracite_0.1.0_x64-setup.exe</span>
             <span class="btn-download-badge">RECOMMENDED</span>
           </a>
-          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download" target="_blank" rel="noopener">
-            4nthracite_0.1.0_x64_en-US.msi
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" id="dl-win-msi" class="btn-download" target="_blank" rel="noopener">
+            <span class="btn-filename">4nthracite_0.1.0_x64_en-US.msi</span>
             <span class="btn-download-badge">MSI</span>
           </a>
         </div>
@@ -553,7 +553,7 @@
           <li>
             <div>
               Go to the GitHub Releases page and download
-              <code>4nthracite_0.1.0_x64-setup.exe</code> from the Assets section.
+              <code data-asset="win-exe">4nthracite_0.1.0_x64-setup.exe</code> from the Assets section.
             </div>
           </li>
           <li>
@@ -591,7 +591,7 @@
         <div class="steps-block">
           <p class="steps-title"><strong>MSI Package</strong> — Alternative</p>
           <ol class="steps-list">
-            <li><div>Download <code>4nthracite_0.1.0_x64_en-US.msi</code> from the Releases page.</div></li>
+            <li><div>Download <code data-asset="win-msi">4nthracite_0.1.0_x64_en-US.msi</code> from the Releases page.</div></li>
             <li><div>Double-click the <code>.msi</code> file.</div></li>
             <li><div>Accept the SmartScreen prompt as above (More info → Run anyway).</div></li>
             <li><div>Follow the installer wizard.</div></li>
@@ -635,14 +635,14 @@
     <div class="os-panel" id="panel-macos">
 
       <div class="download-strip">
-        <p class="download-strip-title">Download — macOS 11 Big Sur or later</p>
+        <p class="download-strip-title">Download <span class="app-version">v0.1.0</span> — macOS 11 Big Sur or later</p>
         <div class="download-links">
-          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download recommended" target="_blank" rel="noopener">
-            4nthracite_0.1.0_aarch64.dmg
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" id="dl-mac-arm" class="btn-download recommended" target="_blank" rel="noopener">
+            <span class="btn-filename">4nthracite_0.1.0_aarch64.dmg</span>
             <span class="btn-download-badge">APPLE SILICON</span>
           </a>
-          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download" target="_blank" rel="noopener">
-            4nthracite_0.1.0_x64.dmg
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" id="dl-mac-x64" class="btn-download" target="_blank" rel="noopener">
+            <span class="btn-filename">4nthracite_0.1.0_x64.dmg</span>
             <span class="btn-download-badge">INTEL</span>
           </a>
         </div>
@@ -715,14 +715,14 @@
       </div>
 
       <div class="download-strip">
-        <p class="download-strip-title">Download — x86_64, Ubuntu 22.04+ or equivalent</p>
+        <p class="download-strip-title">Download <span class="app-version">v0.1.0</span> — x86_64, Ubuntu 22.04+ or equivalent</p>
         <div class="download-links">
-          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download recommended" target="_blank" rel="noopener">
-            4nthracite_0.1.0_amd64.AppImage
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" id="dl-linux-appimage" class="btn-download recommended" target="_blank" rel="noopener">
+            <span class="btn-filename">4nthracite_0.1.0_amd64.AppImage</span>
             <span class="btn-download-badge">RECOMMENDED</span>
           </a>
-          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download" target="_blank" rel="noopener">
-            4nthracite_0.1.0_amd64.deb
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" id="dl-linux-deb" class="btn-download" target="_blank" rel="noopener">
+            <span class="btn-filename">4nthracite_0.1.0_amd64.deb</span>
             <span class="btn-download-badge">DEB</span>
           </a>
         </div>
@@ -731,17 +731,17 @@
       <div class="steps-block">
         <p class="steps-title"><strong>AppImage</strong> — Recommended (works on most distros)</p>
         <ol class="steps-list">
-          <li><div>Download <code>4nthracite_0.1.0_amd64.AppImage</code> from the Releases page.</div></li>
+          <li><div>Download <code data-asset="appimage">4nthracite_0.1.0_amd64.AppImage</code> from the Releases page.</div></li>
           <li>
             <div>
               Open a terminal and make it executable:
-              <pre>chmod +x ~/Downloads/4nthracite_0.1.0_amd64.AppImage</pre>
+              <pre>chmod +x ~/Downloads/<span data-asset="appimage">4nthracite_0.1.0_amd64.AppImage</span></pre>
             </div>
           </li>
           <li>
             <div>
               Run it:
-              <pre>~/Downloads/4nthracite_0.1.0_amd64.AppImage</pre>
+              <pre>~/Downloads/<span data-asset="appimage">4nthracite_0.1.0_amd64.AppImage</span></pre>
               Or double-click it in your file manager (if AppImage support is enabled).
             </div>
           </li>
@@ -785,11 +785,11 @@ mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
       <div class="alt-panel" id="alt-linux-deb">
         <div class="steps-block" style="margin-top: 0.75rem;">
           <ol class="steps-list">
-            <li><div>Download <code>4nthracite_0.1.0_amd64.deb</code> from the Releases page.</div></li>
+            <li><div>Download <code data-asset="deb">4nthracite_0.1.0_amd64.deb</code> from the Releases page.</div></li>
             <li>
               <div>
                 Install via terminal:
-                <pre>sudo dpkg -i ~/Downloads/4nthracite_0.1.0_amd64.deb</pre>
+                <pre>sudo dpkg -i ~/Downloads/<span data-asset="deb">4nthracite_0.1.0_amd64.deb</span></pre>
                 Or double-click the <code>.deb</code> in Files/Nautilus to open the Software Center.
               </div>
             </li>
@@ -892,8 +892,8 @@ mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
         <a href="https://github.com/Metallicode/4nthracite/issues" class="btn-contact" target="_blank" rel="noopener">
           GitHub Issues &rarr;
         </a>
-        <a href="mailto:dominique@metallicode.com" class="btn-contact">
-          dominique@metallicode.com
+        <a href="mailto:support@metallicode.com" class="btn-contact">
+          support@metallicode.com
         </a>
       </div>
     </div>
@@ -954,6 +954,54 @@ mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
       if (ua.includes('win')) os = 'windows';
       else if (ua.includes('mac')) os = 'macos';
       switchTab(os);
+    })();
+
+    // Fetch latest release from public releases repo and update version + download links
+    (function () {
+      const API = 'https://api.github.com/repos/Metallicode/4nthracite-releases/releases/latest';
+
+      // Maps a filename pattern to a download button id and a data-asset key
+      const ASSET_MAP = [
+        { test: n => /-setup\.exe$/i.test(n),  btnId: 'dl-win-exe',         assetKey: 'win-exe'   },
+        { test: n => /en-US\.msi$/i.test(n),   btnId: 'dl-win-msi',         assetKey: 'win-msi'   },
+        { test: n => /aarch64\.dmg$/i.test(n), btnId: 'dl-mac-arm',         assetKey: null         },
+        { test: n => /_x64\.dmg$/i.test(n),    btnId: 'dl-mac-x64',         assetKey: null         },
+        { test: n => /\.AppImage$/i.test(n),   btnId: 'dl-linux-appimage',  assetKey: 'appimage'  },
+        { test: n => /\.deb$/i.test(n),        btnId: 'dl-linux-deb',       assetKey: 'deb'       },
+      ];
+
+      fetch(API)
+        .then(r => r.ok ? r.json() : Promise.reject(r.status))
+        .then(data => {
+          // Update every version badge on the page
+          document.querySelectorAll('.app-version').forEach(el => {
+            el.textContent = data.tag_name;
+          });
+
+          // Wire up each release asset
+          (data.assets || []).forEach(asset => {
+            const entry = ASSET_MAP.find(m => m.test(asset.name));
+            if (!entry) return;
+
+            // Update download button href and displayed filename
+            const btn = document.getElementById(entry.btnId);
+            if (btn) {
+              btn.href = asset.browser_download_url;
+              const nameEl = btn.querySelector('.btn-filename');
+              if (nameEl) nameEl.textContent = asset.name;
+            }
+
+            // Update any filename references in step text / code blocks
+            if (entry.assetKey) {
+              document.querySelectorAll('[data-asset="' + entry.assetKey + '"]').forEach(el => {
+                el.textContent = asset.name;
+              });
+            }
+          });
+        })
+        .catch(() => {
+          // On failure the page stays functional — buttons still link to the releases page
+        });
     })();
   </script>
 
