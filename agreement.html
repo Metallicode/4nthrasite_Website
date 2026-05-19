@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4NTHRACITE — Beta Testing Agreement</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg:     #0a0a0a;
+      --bg2:    #0d0d0d;
+      --bg3:    #111111;
+      --green:  #3ddc84;
+      --text:   #c0c0c0;
+      --dim:    #555555;
+      --dim2:   #333333;
+      --border: #1a1a1a;
+      --font:   'Courier New', Courier, monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 0.15rem; }
+    .nav-logo-img { height: 30px; width: auto; flex-shrink: 0; }
+    .nav-logo-text { font-size: 1rem; font-weight: bold; color: var(--green); letter-spacing: 0.2em; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: var(--text); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .nav-links a:hover { color: var(--green); text-decoration: none; }
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-toggle span { display: block; width: 22px; height: 1px; background: var(--text); }
+
+    /* PAGE HEADER */
+    .page-header { padding: 4rem 2rem 3rem; border-bottom: 1px solid var(--border); }
+    .page-header-inner { max-width: 900px; margin: 0 auto; }
+    .page-eyebrow { font-size: 0.65rem; color: var(--dim); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
+    .page-eyebrow::before { content: '// '; color: var(--green); }
+    .page-title { font-size: clamp(1.8rem, 5vw, 3rem); color: var(--text); letter-spacing: 0.05em; margin-bottom: 1rem; }
+    .page-title span { color: var(--green); }
+    .page-desc { font-size: 0.85rem; color: var(--dim); max-width: 600px; line-height: 1.85; }
+
+    /* CONTENT */
+    .content { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
+    .section-label { font-size: 0.62rem; color: var(--dim); letter-spacing: 0.32em; text-transform: uppercase; margin-bottom: 1.5rem; display: block; }
+    .section-label::before { content: '// '; color: var(--green); }
+
+    /* NOTICE */
+    .notice { border: 1px solid var(--dim2); border-left: 2px solid var(--green); padding: 1.25rem 1.5rem; margin-bottom: 2rem; }
+    .notice-label { font-size: 0.65rem; color: var(--green); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .notice p { font-size: 0.82rem; color: var(--dim); line-height: 1.75; }
+    .notice p + p { margin-top: 0.4rem; }
+
+    /* PDF READING FRAME */
+    .pdf-read-wrap { background: var(--bg2); border: 1px solid var(--border); margin-bottom: 3.5rem; position: relative; }
+    .pdf-embed { display: block; width: 100%; height: 680px; border: none; }
+    .pdf-fallback { display: none; padding: 2rem; text-align: center; }
+    .pdf-fallback p { font-size: 0.82rem; color: var(--dim); margin-bottom: 1rem; }
+
+    /* SIGNING STAGE */
+    .sign-stage-wrap { background: #fff; border: 1px solid var(--border); margin-bottom: 1.5rem; overflow: hidden; }
+    #sign-stage { position: relative; display: block; width: 100%; }
+    #pdf-render-canvas { display: block; width: 100%; height: auto; }
+    #sign-fields { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+    /* Shared field styles */
+    .sf { position: absolute; pointer-events: all; }
+    #sig-canvas {
+      cursor: crosshair;
+      background: rgba(61, 220, 132, 0.04);
+      border-bottom: 1.5px solid rgba(61, 220, 132, 0.5);
+      touch-action: none;
+    }
+    .sf-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(61, 220, 132, 0.35);
+      color: #1a1a1a;
+      font-family: 'Courier New', Courier, monospace;
+      outline: none;
+      padding: 1px 3px;
+      width: 100%;
+      height: 100%;
+      font-size: 9px;
+    }
+    .sf-input:focus { border-bottom-color: rgba(61, 220, 132, 0.9); background: rgba(61,220,132,0.04); }
+    .sf-input::placeholder { color: #aaa; }
+
+    /* ACTIONS */
+    .sign-actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
+    .btn-clear { background: transparent; border: 1px solid var(--dim2); color: var(--dim); font-family: var(--font); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem 0.9rem; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
+    .btn-clear:hover { border-color: var(--text); color: var(--text); }
+    .sign-hint { font-size: 0.72rem; color: var(--dim); }
+
+    .sign-error { font-size: 0.75rem; color: #ff6b6b; min-height: 1.1em; margin-bottom: 1rem; }
+
+    .btn-download-pdf {
+      background: var(--green); color: #000; border: none;
+      font-family: var(--font); font-size: 0.85rem; font-weight: bold;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.8rem 2rem; cursor: pointer; transition: background 0.15s;
+      display: inline-block;
+    }
+    .btn-download-pdf:hover:not(:disabled) { background: #55e898; }
+    .btn-download-pdf:disabled { background: var(--dim2); color: var(--dim); cursor: not-allowed; }
+
+    .btn-primary {
+      background: var(--green); color: #000 !important; font-family: var(--font);
+      font-size: 0.82rem; font-weight: bold; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.65rem 1.5rem; display: inline-block;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: #55e898; text-decoration: none !important; }
+
+    #sign-success { display: none; margin-top: 1.5rem; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 3rem 2rem; margin-top: 2rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: flex-start; }
+    .footer-logo { font-size: 1rem; font-weight: bold; color: var(--green); letter-spacing: 0.2em; display: block; margin-bottom: 0.4rem; }
+    .footer-tagline { font-size: 0.75rem; color: var(--dim); }
+    .footer-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
+    .footer-nav a { color: var(--dim); font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .footer-nav a:hover { color: var(--green); text-decoration: none; }
+    .footer-bottom { max-width: 1100px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 0.72rem; color: var(--dim); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; }
+      .nav-links.open { display: flex; position: fixed; top: 56px; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; gap: 1.25rem; }
+      .nav-toggle { display: flex; }
+      .page-header { padding: 3rem 1.5rem 2rem; }
+      .content { padding: 3rem 1.5rem; }
+      .pdf-embed { height: 420px; }
+      footer { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="4nthracite_Logo.png" class="nav-logo-img" alt="4">
+      <span class="nav-logo-text">NTHRACITE</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="beta.html">Beta</a>
+    </div>
+    <div class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-eyebrow">Before you begin</p>
+      <h1 class="page-title">Beta Testing <span>Agreement</span></h1>
+      <p class="page-desc">
+        Read the agreement, complete the Tester signature section on page 3, then download the signed PDF and send it to
+        <a href="mailto:support@metallicode.com">support@metallicode.com</a>.
+      </p>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- STEP 1: READ -->
+    <span class="section-label">01 — Read the agreement</span>
+    <div class="pdf-read-wrap">
+      <embed id="pdf-embed" src="4nthracite_Beta_Testing_Agreement.pdf" type="application/pdf" class="pdf-embed">
+      <div class="pdf-fallback" id="pdf-fallback">
+        <p>PDF preview is not available in this browser.</p>
+        <a href="4nthracite_Beta_Testing_Agreement.pdf" target="_blank" class="btn-download-pdf" style="font-size:0.78rem;padding:0.6rem 1.2rem;">
+          Open agreement PDF &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- STEP 2: SIGN -->
+    <span class="section-label">02 — Sign</span>
+
+    <div class="notice" style="margin-bottom:1.5rem;">
+      <p class="notice-label">Tester section — page 3</p>
+      <p>Draw your signature in the highlighted area. The date, name, and email fields are overlaid directly on the document. What you fill in here is what gets embedded into the PDF.</p>
+    </div>
+
+    <div class="sign-stage-wrap">
+      <div id="sign-stage">
+        <canvas id="pdf-render-canvas"></canvas>
+        <div id="sign-fields">
+          <canvas id="sig-canvas" class="sf"></canvas>
+          <div class="sf" id="wrap-date"><input type="date" id="sf-date" class="sf-input"></div>
+          <div class="sf" id="wrap-name"><input type="text" id="sf-name" class="sf-input" placeholder="Full name"></div>
+          <div class="sf" id="wrap-email"><input type="email" id="sf-email" class="sf-input" placeholder="your@email.com"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sign-actions">
+      <button class="btn-clear" onclick="clearSig()">Clear signature</button>
+      <span class="sign-hint">Draw inside the green area &nbsp;·&nbsp; tap fields to type</span>
+    </div>
+
+    <p class="sign-error" id="sign-error"></p>
+
+    <button class="btn-download-pdf" id="btn-download" onclick="downloadSigned()">
+      Download signed agreement
+    </button>
+
+    <div id="sign-success">
+      <div class="notice" style="margin-top:0;">
+        <p class="notice-label">Downloaded</p>
+        <p>
+          Send the signed PDF to <a href="mailto:support@metallicode.com">support@metallicode.com</a> to complete your registration.
+        </p>
+        <p style="margin-top:1rem;">
+          <a href="beta.html" class="btn-primary">Back to installation guide &rarr;</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-logo">4NTHRACITE</span>
+        <p class="footer-tagline">Explore the edge of chaos.</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="beta.html">Beta</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2025 4nthracite. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- PDF.js for rendering the signature page -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- pdf-lib for embedding data into the PDF -->
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+  <script>
+    // ── Nav toggle ──
+    document.getElementById('nav-toggle').addEventListener('click', () => {
+      document.getElementById('nav-links').classList.toggle('open');
+    });
+
+    // ── PDF embed fallback ──
+    // If the embed fails to load (mobile/Firefox), show the fallback link
+    const embedEl = document.getElementById('pdf-embed');
+    embedEl.addEventListener('error', () => {
+      embedEl.style.display = 'none';
+      document.getElementById('pdf-fallback').style.display = 'block';
+    });
+
+    // ── Field positions as fractions of the PDF page dimensions ──
+    // Measured from the TESTER box on page 3 (A4, 595×842 pts)
+    // Adjust these if placement is off after testing
+    const F = {
+      sig:   { l: 0.557, t: 0.121, w: 0.364, h: 0.033 },
+      date:  { l: 0.557, t: 0.157, w: 0.190, h: 0.025 },
+      name:  { l: 0.557, t: 0.203, w: 0.364, h: 0.025 },
+      email: { l: 0.557, t: 0.247, w: 0.364, h: 0.025 },
+    };
+
+    const PDF_SRC = '4nthracite_Beta_Testing_Agreement.pdf';
+
+    // ── Pre-fill name/email from localStorage (set by beta.html gate) ──
+    try {
+      const stored = JSON.parse(localStorage.getItem('anthracite_beta_v1') || '{}');
+      if (stored.name)  document.getElementById('sf-name').value  = stored.name;
+      if (stored.email) document.getElementById('sf-email').value = stored.email;
+    } catch (e) {}
+
+    // ── Default date = today ──
+    document.getElementById('sf-date').valueAsDate = new Date();
+
+    // ── Render the last PDF page with PDF.js ──
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    let renderScale = 1;
+
+    async function renderSignaturePage() {
+      let pdfJs;
+      try {
+        pdfJs = await pdfjsLib.getDocument(PDF_SRC).promise;
+      } catch (e) {
+        document.querySelector('.sign-stage-wrap').innerHTML =
+          '<p style="padding:2rem;color:var(--dim);font-size:0.82rem;">Could not load PDF preview. <a href="' + PDF_SRC + '" target="_blank">Open in new tab</a>.</p>';
+        return;
+      }
+
+      const page = await pdfJs.getPage(pdfJs.numPages);
+      const stage = document.getElementById('sign-stage');
+      const stageW = stage.clientWidth || 700;
+
+      const vp1 = page.getViewport({ scale: 1 });
+      renderScale = stageW / vp1.width;
+      const vp = page.getViewport({ scale: renderScale });
+
+      const rc = document.getElementById('pdf-render-canvas');
+      rc.width  = vp.width;
+      rc.height = vp.height;
+
+      await page.render({ canvasContext: rc.getContext('2d'), viewport: vp }).promise;
+
+      placeFields(vp.width, vp.height);
+    }
+
+    function placeFields(w, h) {
+      const overlay = document.getElementById('sign-fields');
+      overlay.style.width  = w + 'px';
+      overlay.style.height = h + 'px';
+
+      place(document.getElementById('sig-canvas'),  F.sig,   w, h);
+      place(document.getElementById('wrap-date'),    F.date,  w, h);
+      place(document.getElementById('wrap-name'),    F.name,  w, h);
+      place(document.getElementById('wrap-email'),   F.email, w, h);
+
+      // Size the input font to match the rendered scale (base 9pt on A4)
+      const scaledFont = Math.max(8, Math.round(9 * renderScale)) + 'px';
+      document.querySelectorAll('.sf-input').forEach(el => el.style.fontSize = scaledFont);
+
+      // Initialise the drawing canvas AFTER it's been sized
+      const sc = document.getElementById('sig-canvas');
+      sc.width  = sc.offsetWidth  * (window.devicePixelRatio || 1);
+      sc.height = sc.offsetHeight * (window.devicePixelRatio || 1);
+      initDrawing(sc);
+    }
+
+    function place(el, f, w, h) {
+      el.style.left   = (f.l * w) + 'px';
+      el.style.top    = (f.t * h) + 'px';
+      el.style.width  = (f.w * w) + 'px';
+      el.style.height = (f.h * h) + 'px';
+    }
+
+    renderSignaturePage();
+
+    // ── Signature canvas drawing ──
+    let sigCtx, drawing = false, hasSig = false;
+
+    function initDrawing(canvas) {
+      sigCtx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      sigCtx.scale(dpr, dpr);
+      sigCtx.strokeStyle = '#111111';
+      sigCtx.lineWidth   = 1.4;
+      sigCtx.lineCap     = 'round';
+      sigCtx.lineJoin    = 'round';
+
+      canvas.addEventListener('mousedown',  onDown);
+      canvas.addEventListener('mousemove',  onMove);
+      canvas.addEventListener('mouseup',    onUp);
+      canvas.addEventListener('mouseleave', onUp);
+      canvas.addEventListener('touchstart', onDown, { passive: false });
+      canvas.addEventListener('touchmove',  onMove, { passive: false });
+      canvas.addEventListener('touchend',   onUp);
+    }
+
+    function evtPos(e, canvas) {
+      const r = canvas.getBoundingClientRect();
+      const src = e.touches ? e.touches[0] : e;
+      return { x: src.clientX - r.left, y: src.clientY - r.top };
+    }
+
+    function onDown(e) {
+      e.preventDefault();
+      drawing = true;
+      const p = evtPos(e, e.currentTarget);
+      sigCtx.beginPath();
+      sigCtx.moveTo(p.x, p.y);
+    }
+    function onMove(e) {
+      if (!drawing) return;
+      e.preventDefault();
+      const p = evtPos(e, e.currentTarget);
+      sigCtx.lineTo(p.x, p.y);
+      sigCtx.stroke();
+      hasSig = true;
+    }
+    function onUp() { drawing = false; }
+
+    function clearSig() {
+      if (!sigCtx) return;
+      const sc = document.getElementById('sig-canvas');
+      sigCtx.clearRect(0, 0, sc.width, sc.height);
+      hasSig = false;
+    }
+
+    // ── Download signed PDF ──
+    async function downloadSigned() {
+      const errEl = document.getElementById('sign-error');
+      errEl.textContent = '';
+
+      const name  = document.getElementById('sf-name').value.trim();
+      const email = document.getElementById('sf-email').value.trim();
+      const date  = document.getElementById('sf-date').value;
+
+      if (!hasSig)          { errEl.textContent = 'Please draw your signature before downloading.'; return; }
+      if (!name)            { errEl.textContent = 'Please enter your printed name.'; return; }
+      if (!email)           { errEl.textContent = 'Please enter your contact email.'; return; }
+      if (!date)            { errEl.textContent = 'Please select a date.'; return; }
+
+      const btn = document.getElementById('btn-download');
+      btn.textContent = 'Generating…';
+      btn.disabled    = true;
+
+      try {
+        const [yr, mo, dy] = date.split('-');
+        const dateStr = `${dy}/${mo}/${yr}`;
+
+        // Load original PDF bytes
+        const pdfBytes = await fetch(PDF_SRC).then(r => r.arrayBuffer());
+        const { PDFDocument, rgb, StandardFonts } = PDFLib;
+        const pdfDoc = await PDFDocument.load(pdfBytes);
+
+        const pages    = pdfDoc.getPages();
+        const lastPage = pages[pages.length - 1];
+        const { width: pgW, height: pgH } = lastPage.getSize();
+        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+
+        // Export signature canvas as PNG and embed
+        const sc = document.getElementById('sig-canvas');
+        const sigPng   = sc.toDataURL('image/png');
+        const sigBytes = await fetch(sigPng).then(r => r.arrayBuffer());
+        const sigImg   = await pdfDoc.embedPng(sigBytes);
+
+        // Helper: convert fraction → PDF coords
+        // PDF origin is bottom-left; y increases upward
+        const px = frac => frac * pgW;
+        const py = (t, h) => pgH - (t + h) * pgH;   // bottom-left y of a box
+
+        lastPage.drawImage(sigImg, {
+          x: px(F.sig.l), y: py(F.sig.t, F.sig.h),
+          width: px(F.sig.w), height: F.sig.h * pgH,
+        });
+
+        const tOpts = { font, color: rgb(0, 0, 0), size: 9 };
+        const textY = (t, h) => pgH - (t + h * 0.72) * pgH;
+
+        lastPage.drawText(dateStr, { x: px(F.date.l),  y: textY(F.date.t,  F.date.h),  ...tOpts });
+        lastPage.drawText(name,    { x: px(F.name.l),  y: textY(F.name.t,  F.name.h),  ...tOpts });
+        lastPage.drawText(email,   { x: px(F.email.l), y: textY(F.email.t, F.email.h), ...tOpts });
+
+        // Save and trigger download
+        const out  = await pdfDoc.save();
+        const blob = new Blob([out], { type: 'application/pdf' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href     = url;
+        a.download = `4nthracite_Beta_Agreement_${name.replace(/\s+/g, '_')}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 5000);
+
+        // Persist agreement state so beta.html gate passes
+        localStorage.setItem('anthracite_agreement_v1', JSON.stringify({
+          name, email, date, signedAt: new Date().toISOString()
+        }));
+
+        btn.textContent = 'Downloaded';
+        document.getElementById('sign-success').style.display = 'block';
+        document.getElementById('sign-success').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      } catch (err) {
+        console.error(err);
+        errEl.textContent = 'Failed to generate the PDF. Please try again.';
+        btn.textContent = 'Download signed agreement';
+        btn.disabled    = false;
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1084,6 +1084,25 @@ mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
     }
 
     function grantAccess(name) {
+      const agreed = localStorage.getItem('anthracite_agreement_v1');
+      if (!agreed) {
+        // Keep gate visible but switch to agreement prompt
+        const gate = document.getElementById('beta-gate');
+        if (gate) gate.innerHTML = `
+          <div class="gate-inner">
+            <img src="4nthracite_Logo.png" class="gate-logo-img" alt="4nthracite">
+            <span class="gate-logo-text">NTHRACITE</span>
+            <p class="gate-title">One more step</p>
+            <p class="gate-sub">
+              Welcome, ${escapeHtml(name)}.<br><br>
+              Before accessing the beta program, please read and sign the Beta Testing Agreement.
+            </p>
+            <a href="agreement.html" class="gate-btn" style="display:block;text-align:center;text-decoration:none;line-height:normal;padding:0.75rem 1rem;">
+              Read &amp; Sign Agreement &rarr;
+            </a>
+          </div>`;
+        return;
+      }
       document.body.classList.remove('gated');
       const gate = document.getElementById('beta-gate');
       if (gate) gate.remove();
