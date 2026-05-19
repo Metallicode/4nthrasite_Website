@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4NTHRACITE — Beta Access</title>
+  <meta name="description" content="4nthracite beta — installation guide for beta testers.">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:     #0a0a0a;
+      --bg2:    #0d0d0d;
+      --bg3:    #111111;
+      --green:  #3ddc84;
+      --text:   #c0c0c0;
+      --dim:    #555555;
+      --dim2:   #333333;
+      --border: #1a1a1a;
+      --font:   'Courier New', Courier, monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+    }
+    .nav-logo-img {
+      height: 30px;
+      width: auto;
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--green);
+      letter-spacing: 0.2em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--text);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .nav-links a:hover { color: var(--green); text-decoration: none; }
+    .nav-links a.active { color: var(--green); }
+    .btn-buy {
+      background: var(--green);
+      color: #000 !important;
+      padding: 0.35rem 1rem;
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .btn-buy:hover { background: #55e898; text-decoration: none !important; }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span { display: block; width: 22px; height: 1px; background: var(--text); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 4rem 2rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header-inner { max-width: 900px; margin: 0 auto; }
+    .page-eyebrow {
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .page-eyebrow::before { content: '// '; color: var(--green); }
+    .page-title {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--text);
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .page-title span { color: var(--green); }
+    .page-desc {
+      font-size: 0.85rem;
+      color: var(--dim);
+      max-width: 620px;
+      line-height: 1.9;
+    }
+    .page-desc strong { color: var(--text); }
+
+    /* ── CONTENT ── */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 0.62rem;
+      color: var(--dim);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .section-label::before { content: '// '; color: var(--green); }
+
+    /* ── NOTICE ── */
+    .notice {
+      border: 1px solid var(--dim2);
+      border-left: 2px solid var(--green);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .notice-label {
+      font-size: 0.65rem;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .notice p {
+      font-size: 0.82rem;
+      color: var(--dim);
+      line-height: 1.75;
+    }
+    .notice p + p { margin-top: 0.4rem; }
+    .notice a { font-size: inherit; }
+
+    .notice-warn {
+      border-left-color: #ffaa33;
+    }
+    .notice-warn .notice-label { color: #ffaa33; }
+
+    /* ── OS TABS ── */
+    .os-tabs {
+      display: flex;
+      gap: 1px;
+      background: var(--border);
+      margin-bottom: 3rem;
+    }
+    .os-tab {
+      flex: 1;
+      padding: 0.9rem 1rem;
+      background: var(--bg2);
+      border: none;
+      border-top: 2px solid transparent;
+      color: var(--dim);
+      font-family: var(--font);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+      text-align: center;
+    }
+    .os-tab:hover { color: var(--text); background: var(--bg3); }
+    .os-tab.active {
+      color: var(--green);
+      border-top-color: var(--green);
+      background: var(--bg3);
+    }
+    .os-tab .tab-icon { display: block; font-size: 1.2rem; margin-bottom: 0.3rem; line-height: 1; }
+
+    /* ── OS PANELS ── */
+    .os-panel { display: none; }
+    .os-panel.active { display: block; }
+
+    /* ── DOWNLOAD STRIP ── */
+    .download-strip {
+      background: var(--bg2);
+      border: 1px solid var(--dim2);
+      border-top: 2px solid var(--green);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 2.5rem;
+    }
+    .download-strip-title {
+      font-size: 0.68rem;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .download-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 1.1rem;
+      background: transparent;
+      border: 1px solid var(--dim2);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      text-decoration: none;
+    }
+    .btn-download:hover {
+      border-color: var(--green);
+      color: var(--green);
+      text-decoration: none;
+    }
+    .btn-download-badge {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      color: var(--dim);
+      border: 1px solid var(--dim2);
+      padding: 0.1rem 0.4rem;
+    }
+    .btn-download:hover .btn-download-badge {
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .btn-download.recommended .btn-download-badge {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    /* ── STEPS ── */
+    .steps-block { margin-bottom: 2.5rem; }
+    .steps-title {
+      font-size: 0.68rem;
+      color: var(--dim);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .steps-title strong { color: var(--text); }
+    .steps-list {
+      list-style: none;
+      counter-reset: steps;
+    }
+    .steps-list li {
+      counter-increment: steps;
+      display: flex;
+      gap: 1rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .steps-list li::before {
+      content: counter(steps, decimal-leading-zero);
+      color: var(--green);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+      padding-top: 0.15rem;
+      min-width: 2rem;
+    }
+    .steps-list li .step-sub {
+      margin-top: 0.4rem;
+      padding-left: 1rem;
+      border-left: 1px solid var(--border);
+      color: var(--dim);
+      font-size: 0.78rem;
+    }
+    .steps-list li .step-sub p { margin-top: 0.2rem; }
+    code {
+      font-family: var(--font);
+      font-size: 0.82em;
+      background: var(--bg3);
+      padding: 0.05em 0.35em;
+      border: 1px solid var(--border);
+      color: var(--green);
+    }
+    pre {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      font-family: var(--font);
+      font-size: 0.78rem;
+      color: var(--green);
+      overflow-x: auto;
+      margin-top: 0.4rem;
+      line-height: 1.7;
+    }
+
+    /* ── TOGGLE ALTERNATIVE ── */
+    .alt-toggle {
+      font-size: 0.72rem;
+      color: var(--dim);
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      display: inline-block;
+      border-bottom: 1px dashed var(--dim2);
+      user-select: none;
+    }
+    .alt-toggle:hover { color: var(--text); border-bottom-color: var(--dim); }
+    .alt-toggle::before { content: '+ '; color: var(--green); }
+    .alt-toggle.open::before { content: '− '; }
+    .alt-panel { display: none; }
+    .alt-panel.open { display: block; }
+
+    /* ── SPECS TABLE ── */
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-bottom: 3rem;
+    }
+    .specs-table tr { border-bottom: 1px solid var(--border); }
+    .specs-table td { padding: 0.65rem 0; vertical-align: top; }
+    .specs-table td:first-child {
+      color: var(--dim);
+      width: 200px;
+      padding-right: 1.5rem;
+      letter-spacing: 0.04em;
+    }
+    .specs-table td:last-child { color: var(--text); }
+
+    /* ── BUG REPORT ── */
+    .bug-report {
+      border: 1px solid var(--dim2);
+      border-left: 2px solid var(--green);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 3rem;
+    }
+    .bug-report h3 {
+      font-size: 0.78rem;
+      color: var(--text);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .bug-report p {
+      font-size: 0.82rem;
+      color: var(--dim);
+      line-height: 1.75;
+      margin-bottom: 0.5rem;
+    }
+    .bug-report ul {
+      list-style: none;
+      margin-top: 0.5rem;
+    }
+    .bug-report ul li {
+      font-size: 0.78rem;
+      color: var(--dim);
+      padding: 0.2rem 0;
+    }
+    .bug-report ul li::before { content: '·  '; color: var(--green); }
+    .bug-contact {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+    .btn-contact {
+      display: inline-block;
+      padding: 0.6rem 1.1rem;
+      border: 1px solid var(--dim2);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      transition: border-color 0.15s, color 0.15s;
+      text-decoration: none;
+    }
+    .btn-contact:hover {
+      border-color: var(--green);
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      margin-top: 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .footer-logo { font-size: 1rem; font-weight: bold; color: var(--green); letter-spacing: 0.2em; display: block; margin-bottom: 0.4rem; }
+    .footer-tagline { font-size: 0.75rem; color: var(--dim); }
+    .footer-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
+    .footer-nav a { color: var(--dim); font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .footer-nav a:hover { color: var(--green); text-decoration: none; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 0.72rem; color: var(--dim); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { color: var(--dim); font-size: 0.72rem; }
+    .footer-legal a:hover { color: var(--green); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; }
+      .nav-links.open {
+        display: flex;
+        position: fixed;
+        top: 56px; left: 0; right: 0;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem 2rem;
+        gap: 1.25rem;
+      }
+      .nav-toggle { display: flex; }
+      .page-header { padding: 3rem 1.5rem 2rem; }
+      .content { padding: 3rem 1.5rem; }
+      .os-tabs { flex-direction: column; }
+      .os-tab { text-align: left; display: flex; align-items: center; gap: 0.75rem; border-top: none; border-left: 2px solid transparent; }
+      .os-tab.active { border-left-color: var(--green); border-top-color: transparent; }
+      .os-tab .tab-icon { display: inline; font-size: 1rem; margin-bottom: 0; }
+      .specs-table td:first-child { width: 130px; }
+      footer { padding: 2rem 1.5rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .download-links { flex-direction: column; }
+      .btn-download { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="4nthracite_Logo.png" class="nav-logo-img" alt="4">
+      <span class="nav-logo-text">NTHRACITE</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="download.html">Download</a>
+      <a href="https://YOUR-LEMONSQUEEZY-CHECKOUT-URL" class="btn-buy">Buy Now</a>
+    </div>
+    <div class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-eyebrow">Beta access — v0.1.0</p>
+      <h1 class="page-title">Welcome, <span>beta tester.</span></h1>
+      <p class="page-desc">
+        Thank you for being here. Your feedback during this early phase is what
+        shapes 4nthracite into the instrument it should be.
+        <br><br>
+        <strong>4nthracite</strong> is a generative music workstation built as a native desktop app —
+        there is no web version and no internet connection required after installation.
+        Select your platform below and follow the steps to get running.
+      </p>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- OS SELECTOR -->
+    <p class="section-label">Select your platform</p>
+
+    <div class="os-tabs" role="tablist">
+      <button class="os-tab" id="tab-windows" role="tab" onclick="switchTab('windows')">
+        <span class="tab-icon">🪟</span>Windows
+      </button>
+      <button class="os-tab" id="tab-macos" role="tab" onclick="switchTab('macos')">
+        <span class="tab-icon">🍎</span>macOS
+      </button>
+      <button class="os-tab" id="tab-linux" role="tab" onclick="switchTab('linux')">
+        <span class="tab-icon">🐧</span>Linux
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         WINDOWS
+    ══════════════════════════════════════════════ -->
+    <div class="os-panel" id="panel-windows">
+
+      <div class="download-strip">
+        <p class="download-strip-title">Download — Windows 10/11 (64-bit)</p>
+        <div class="download-links">
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download recommended" target="_blank" rel="noopener">
+            4nthracite_0.1.0_x64-setup.exe
+            <span class="btn-download-badge">RECOMMENDED</span>
+          </a>
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download" target="_blank" rel="noopener">
+            4nthracite_0.1.0_x64_en-US.msi
+            <span class="btn-download-badge">MSI</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="steps-block">
+        <p class="steps-title"><strong>NSIS Installer (.exe)</strong> — Recommended</p>
+        <ol class="steps-list">
+          <li>
+            <div>
+              Go to the GitHub Releases page and download
+              <code>4nthracite_0.1.0_x64-setup.exe</code> from the Assets section.
+            </div>
+          </li>
+          <li>
+            <div>
+              Double-click the downloaded file to launch the installer.
+            </div>
+          </li>
+          <li>
+            <div>
+              If <strong>Windows SmartScreen</strong> shows a warning — "Windows protected your PC":
+              <div class="step-sub">
+                <p>a. Click <strong>More info</strong></p>
+                <p>b. Click <strong>Run anyway</strong></p>
+                <p>This appears because the app is not yet code-signed. It is safe to proceed.</p>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>Follow the installer prompts: Next → Install → Finish.</div>
+          </li>
+          <li>
+            <div>Launch <strong>4nthracite</strong> from the Start Menu or the desktop shortcut.</div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="notice notice-warn">
+        <p class="notice-label">SmartScreen warning — expected</p>
+        <p>Windows will warn that the app is from an unknown publisher. This is normal for
+           unsigned beta software. Click <strong>More info → Run anyway</strong> to proceed.</p>
+      </div>
+
+      <span class="alt-toggle" onclick="toggleAlt(this, 'alt-win-msi')">MSI installer — alternative method</span>
+      <div class="alt-panel" id="alt-win-msi">
+        <div class="steps-block">
+          <p class="steps-title"><strong>MSI Package</strong> — Alternative</p>
+          <ol class="steps-list">
+            <li><div>Download <code>4nthracite_0.1.0_x64_en-US.msi</code> from the Releases page.</div></li>
+            <li><div>Double-click the <code>.msi</code> file.</div></li>
+            <li><div>Accept the SmartScreen prompt as above (More info → Run anyway).</div></li>
+            <li><div>Follow the installer wizard.</div></li>
+            <li><div>Launch from the Start Menu.</div></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="notice" style="margin-top: 1rem;">
+        <p class="notice-label">WebView2 runtime</p>
+        <p>Most Windows 10/11 machines already have WebView2 installed (it ships with Edge).
+           If the app fails to launch with a WebView2 error, download the Evergreen Bootstrapper from
+           <a href="https://developer.microsoft.com/en-us/microsoft-edge/webview2/" target="_blank" rel="noopener">
+             microsoft.com/edge/webview2</a>.</p>
+      </div>
+
+      <div class="notice" style="margin-top: 1rem;">
+        <p class="notice-label">Audio output</p>
+        <p>On Windows, 4nthracite supports selecting the audio output device from within the
+           Mixer panel. Use the device picker to route audio to a specific interface (WASAPI / DirectSound).</p>
+      </div>
+
+      <p class="section-label" style="margin-top: 2.5rem;">Uninstall</p>
+      <table class="specs-table">
+        <tr>
+          <td>Uninstall</td>
+          <td>Settings → Apps → 4nthracite → Uninstall</td>
+        </tr>
+        <tr>
+          <td>Min. requirement</td>
+          <td>Windows 10 64-bit with WebView2 runtime</td>
+        </tr>
+      </table>
+
+    </div><!-- /panel-windows -->
+
+
+    <!-- ══════════════════════════════════════════════
+         macOS
+    ══════════════════════════════════════════════ -->
+    <div class="os-panel" id="panel-macos">
+
+      <div class="download-strip">
+        <p class="download-strip-title">Download — macOS 11 Big Sur or later</p>
+        <div class="download-links">
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download recommended" target="_blank" rel="noopener">
+            4nthracite_0.1.0_aarch64.dmg
+            <span class="btn-download-badge">APPLE SILICON</span>
+          </a>
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download" target="_blank" rel="noopener">
+            4nthracite_0.1.0_x64.dmg
+            <span class="btn-download-badge">INTEL</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="notice" style="margin-bottom: 1.5rem;">
+        <p class="notice-label">Which file do I need?</p>
+        <p>Apple menu → About This Mac → check <strong>Chip</strong> or <strong>Processor</strong>.<br>
+           M1 / M2 / M3 / M4 → <code>aarch64.dmg</code> &nbsp;·&nbsp; Intel → <code>x64.dmg</code></p>
+      </div>
+
+      <div class="steps-block">
+        <p class="steps-title"><strong>Installation</strong></p>
+        <ol class="steps-list">
+          <li><div>Download the <code>.dmg</code> that matches your Mac (see above).</div></li>
+          <li><div>Double-click the downloaded <code>.dmg</code> to mount it.</div></li>
+          <li><div>Drag the <strong>4nthracite</strong> icon into the <strong>Applications</strong> folder.</div></li>
+          <li><div>Eject the disk image.</div></li>
+          <li>
+            <div>
+              Open <strong>Finder → Applications</strong> and double-click <strong>4nthracite</strong>.
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="notice notice-warn">
+        <p class="notice-label">Gatekeeper warning — first launch</p>
+        <p>Because the app is not yet notarised, macOS will block it on first open:
+           <em>"4nthracite cannot be opened because it is from an unidentified developer."</em></p>
+        <p style="margin-top: 0.75rem;"><strong style="color: var(--text);">Option A (recommended):</strong></p>
+        <p>In Finder, <strong>right-click (Control-click)</strong> the 4nthracite app icon → <strong>Open</strong> →
+           click <strong>Open</strong> in the dialog. You only need to do this once.</p>
+        <p style="margin-top: 0.75rem;"><strong style="color: var(--text);">Option B (System Settings):</strong></p>
+        <p>Try opening normally (it will be blocked) → <strong>System Settings → Privacy &amp; Security</strong> →
+           scroll to Security → click <strong>Open Anyway</strong> → authenticate.</p>
+      </div>
+
+      <div class="notice" style="margin-top: 1rem;">
+        <p class="notice-label">Audio output — important</p>
+        <p>On macOS, in-app audio device selection is <strong>not available</strong> (WebKit/Safari limitation).
+           To route audio to a specific output (e.g. an audio interface), set it in
+           <strong>System Settings → Sound → Output</strong> before launching the app.</p>
+      </div>
+
+      <p class="section-label" style="margin-top: 2.5rem;">Uninstall</p>
+      <table class="specs-table">
+        <tr>
+          <td>Uninstall</td>
+          <td>Drag 4nthracite from Applications to the Trash</td>
+        </tr>
+        <tr>
+          <td>Min. requirement</td>
+          <td>macOS 11 Big Sur or later</td>
+        </tr>
+      </table>
+
+    </div><!-- /panel-macos -->
+
+
+    <!-- ══════════════════════════════════════════════
+         LINUX
+    ══════════════════════════════════════════════ -->
+    <div class="os-panel" id="panel-linux">
+
+      <div class="notice notice-warn">
+        <p class="notice-label">Ubuntu 20.04 not supported</p>
+        <p>4nthracite requires <strong>WebKit2GTK 4.1</strong>, which is not available on Ubuntu 20.04.
+           Please upgrade to Ubuntu 22.04 LTS or use a newer distribution.</p>
+      </div>
+
+      <div class="download-strip">
+        <p class="download-strip-title">Download — x86_64, Ubuntu 22.04+ or equivalent</p>
+        <div class="download-links">
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download recommended" target="_blank" rel="noopener">
+            4nthracite_0.1.0_amd64.AppImage
+            <span class="btn-download-badge">RECOMMENDED</span>
+          </a>
+          <a href="https://github.com/Metallicode/4nthracite-releases/releases/latest" class="btn-download" target="_blank" rel="noopener">
+            4nthracite_0.1.0_amd64.deb
+            <span class="btn-download-badge">DEB</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="steps-block">
+        <p class="steps-title"><strong>AppImage</strong> — Recommended (works on most distros)</p>
+        <ol class="steps-list">
+          <li><div>Download <code>4nthracite_0.1.0_amd64.AppImage</code> from the Releases page.</div></li>
+          <li>
+            <div>
+              Open a terminal and make it executable:
+              <pre>chmod +x ~/Downloads/4nthracite_0.1.0_amd64.AppImage</pre>
+            </div>
+          </li>
+          <li>
+            <div>
+              Run it:
+              <pre>~/Downloads/4nthracite_0.1.0_amd64.AppImage</pre>
+              Or double-click it in your file manager (if AppImage support is enabled).
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="notice" style="margin-bottom: 1.5rem;">
+        <p class="notice-label">FUSE required for AppImage</p>
+        <p>AppImages need FUSE to run. If you get a FUSE or <code>libfuse</code> error:</p>
+        <p style="margin-top: 0.4rem;">
+          Ubuntu/Debian: <code>sudo apt install libfuse2</code><br>
+          Fedora: <code>sudo dnf install fuse</code><br>
+          Arch: <code>sudo pacman -S fuse2</code>
+        </p>
+      </div>
+
+      <span class="alt-toggle" onclick="toggleAlt(this, 'alt-linux-launcher')">Optional — integrate into app launcher</span>
+      <div class="alt-panel" id="alt-linux-launcher">
+        <div class="steps-block" style="margin-top: 0.75rem;">
+          <ol class="steps-list">
+            <li>
+              <div>
+                Move the AppImage to a permanent location:
+                <pre>mkdir -p ~/Applications
+mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
+              </div>
+            </li>
+            <li><div>Right-click the file in your file manager → Properties → Permissions → tick <strong>Allow executing as program</strong>.</div></li>
+            <li>
+              <div>
+                To add to your application menu, install
+                <a href="https://github.com/TheAssassin/AppImageLauncher" target="_blank" rel="noopener">AppImageLauncher</a>,
+                then double-click the AppImage — it will prompt to integrate.
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <span class="alt-toggle" onclick="toggleAlt(this, 'alt-linux-deb')" style="margin-top: 1rem; display: inline-block;">.deb package — Ubuntu / Debian / Linux Mint</span>
+      <div class="alt-panel" id="alt-linux-deb">
+        <div class="steps-block" style="margin-top: 0.75rem;">
+          <ol class="steps-list">
+            <li><div>Download <code>4nthracite_0.1.0_amd64.deb</code> from the Releases page.</div></li>
+            <li>
+              <div>
+                Install via terminal:
+                <pre>sudo dpkg -i ~/Downloads/4nthracite_0.1.0_amd64.deb</pre>
+                Or double-click the <code>.deb</code> in Files/Nautilus to open the Software Center.
+              </div>
+            </li>
+            <li>
+              <div>
+                If installation fails with missing dependencies, run:
+                <pre>sudo apt --fix-broken install</pre>
+                Or install the dependency manually:
+                <pre>sudo apt install libwebkit2gtk-4.1-0</pre>
+              </div>
+            </li>
+            <li>
+              <div>
+                Launch from your application menu, or run:
+                <pre>4nthracite</pre>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="notice" style="margin-top: 1.5rem;">
+        <p class="notice-label">Audio output</p>
+        <p>4nthracite outputs to the default PulseAudio or PipeWire device. If you get no sound,
+           check that your audio server is running:</p>
+        <p style="margin-top: 0.4rem;"><code>pulseaudio --check</code> &nbsp;or&nbsp; <code>systemctl --user status pipewire</code></p>
+      </div>
+
+      <p class="section-label" style="margin-top: 2.5rem;">Uninstall</p>
+      <table class="specs-table">
+        <tr>
+          <td>AppImage</td>
+          <td>Delete the <code>.AppImage</code> file — no system files are created</td>
+        </tr>
+        <tr>
+          <td>.deb</td>
+          <td><code>sudo apt remove 4nthracite</code></td>
+        </tr>
+        <tr>
+          <td>Min. requirement</td>
+          <td>Ubuntu 22.04+ or equivalent · x86_64 · WebKit2GTK 4.1</td>
+        </tr>
+      </table>
+
+    </div><!-- /panel-linux -->
+
+
+    <!-- ── SESSIONS & DATA ── -->
+    <div style="border-top: 1px solid var(--border); padding-top: 3rem; margin-top: 1rem;">
+      <p class="section-label">Sessions &amp; data</p>
+      <p style="font-size: 0.82rem; color: var(--dim); line-height: 1.8; margin-bottom: 1.25rem;">
+        On first launch, 4nthracite will prompt you to create or open a session.
+        Session files are stored at:
+      </p>
+      <table class="specs-table">
+        <tr>
+          <td>Linux / macOS</td>
+          <td><code>~/Documents/Anthracite/{session-name}/</code></td>
+        </tr>
+        <tr>
+          <td>Windows</td>
+          <td><code>C:\Users\{YourName}\Documents\Anthracite\{session-name}\</code></td>
+        </tr>
+      </table>
+      <p style="font-size: 0.82rem; color: var(--dim); line-height: 1.8; margin-bottom: 1rem;">Each session folder contains:</p>
+      <table class="specs-table">
+        <tr>
+          <td><code>{name}.anthc</code></td>
+          <td>Full session state (JSON)</td>
+        </tr>
+        <tr>
+          <td><code>{name}.anthc.autosave</code></td>
+          <td>Auto-saved every 3 minutes</td>
+        </tr>
+        <tr>
+          <td><code>recordings/</code></td>
+          <td>WAV exports from the REC button</td>
+        </tr>
+        <tr>
+          <td><code>logs/</code></td>
+          <td>Timestamped log files — one per app run</td>
+        </tr>
+      </table>
+    </div>
+
+
+    <!-- ── BUG REPORT ── -->
+    <div class="bug-report">
+      <h3>Report a bug</h3>
+      <p>If you hit a crash or unexpected behaviour, please include the most recent
+         <code>.log</code> file from your session's <code>logs/</code> folder.</p>
+      <p>Useful info to include:</p>
+      <ul>
+        <li>Your OS and version (e.g. Windows 11, macOS 14.4, Ubuntu 22.04)</li>
+        <li>The most recent <code>.log</code> file from <code>logs/</code></li>
+        <li>Steps to reproduce the issue</li>
+        <li>What you expected vs. what happened</li>
+      </ul>
+      <div class="bug-contact">
+        <a href="https://github.com/Metallicode/4nthracite/issues" class="btn-contact" target="_blank" rel="noopener">
+          GitHub Issues &rarr;
+        </a>
+        <a href="mailto:dominique@metallicode.com" class="btn-contact">
+          dominique@metallicode.com
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <span class="footer-logo">4NTHRACITE</span>
+        <p class="footer-tagline">Explore the edge of chaos.</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="download.html">Download</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refund Policy</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2025 4nthracite. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="refund.html">Refunds</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Nav toggle
+    document.getElementById('nav-toggle').addEventListener('click', () => {
+      document.getElementById('nav-links').classList.toggle('open');
+    });
+
+    // OS tab switcher
+    function switchTab(os) {
+      ['windows', 'macos', 'linux'].forEach(id => {
+        document.getElementById('tab-' + id).classList.toggle('active', id === os);
+        document.getElementById('panel-' + id).classList.toggle('active', id === os);
+      });
+    }
+
+    // Expandable alternative sections
+    function toggleAlt(trigger, panelId) {
+      const panel = document.getElementById(panelId);
+      const open = panel.classList.toggle('open');
+      trigger.classList.toggle('open', open);
+    }
+
+    // Auto-detect OS on load
+    (function () {
+      const ua = navigator.userAgent.toLowerCase();
+      let os = 'linux';
+      if (ua.includes('win')) os = 'windows';
+      else if (ua.includes('mac')) os = 'macos';
+      switchTab(os);
+    })();
+  </script>
+
+</body>
+</html>
