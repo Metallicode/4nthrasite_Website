@@ -1225,9 +1225,9 @@ mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
 
     // Fetch latest release from public releases repo and update version + download links
     (function () {
-      const API = 'https://api.github.com/repos/Metallicode/4nthracite-releases/releases?per_page=1';
+      const API         = 'https://api.github.com/repos/Metallicode/4nthracite-releases/releases?per_page=1';
+      const RELEASES_URL = 'https://github.com/Metallicode/4nthracite-releases/releases';
 
-      // Maps a filename pattern to a download button id and a data-asset key
       const ASSET_MAP = [
         { test: n => /-setup\.exe$/i.test(n),  btnId: 'dl-win-exe',         assetKey: 'win-exe'   },
         { test: n => /en-US\.msi$/i.test(n),   btnId: 'dl-win-msi',         assetKey: 'win-msi'   },
@@ -1237,39 +1237,63 @@ mv ~/Downloads/4nthracite_0.1.0_amd64.AppImage ~/Applications/</pre>
         { test: n => /\.deb$/i.test(n),        btnId: 'dl-linux-deb',       assetKey: 'deb'       },
       ];
 
+      // Disable all download buttons while the API resolves so users can't
+      // click the stale fallback href before real direct-download links are ready.
+      const allDlBtns = document.querySelectorAll('.btn-download');
+      allDlBtns.forEach(btn => {
+        btn.style.pointerEvents = 'none';
+        btn.style.opacity = '0.45';
+        const f = btn.querySelector('.btn-filename');
+        if (f) { btn.dataset.origName = f.textContent; f.textContent = 'Fetching…'; }
+        // Point fallback to the full releases list (not /latest which skips pre-releases)
+        btn.href = RELEASES_URL;
+      });
+
+      const restoreButtons = (withRealLinks) => {
+        allDlBtns.forEach(btn => {
+          btn.style.pointerEvents = '';
+          btn.style.opacity = '';
+          // If no real link was found for this button, restore original filename text
+          if (!btn.dataset.resolved) {
+            const f = btn.querySelector('.btn-filename');
+            if (f && btn.dataset.origName) f.textContent = btn.dataset.origName;
+          }
+        });
+      };
+
       fetch(API)
         .then(r => r.ok ? r.json() : Promise.reject(r.status))
         .then(list => {
           const data = list[0];
-          if (!data) return;
-          // Update every version badge on the page
+          if (!data) { restoreButtons(); return; }
+
           document.querySelectorAll('.app-version').forEach(el => {
             el.textContent = data.tag_name;
           });
 
-          // Wire up each release asset
           (data.assets || []).forEach(asset => {
             const entry = ASSET_MAP.find(m => m.test(asset.name));
             if (!entry) return;
 
-            // Update download button href and displayed filename
             const btn = document.getElementById(entry.btnId);
             if (btn) {
               btn.href = asset.browser_download_url;
+              btn.dataset.resolved = '1';
               const nameEl = btn.querySelector('.btn-filename');
               if (nameEl) nameEl.textContent = asset.name;
             }
 
-            // Update any filename references in step text / code blocks
             if (entry.assetKey) {
               document.querySelectorAll('[data-asset="' + entry.assetKey + '"]').forEach(el => {
                 el.textContent = asset.name;
               });
             }
           });
+
+          restoreButtons();
         })
         .catch(() => {
-          // On failure the page stays functional — buttons still link to the releases page
+          restoreButtons();
         });
     })();
   </script>
